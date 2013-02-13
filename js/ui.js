@@ -2,10 +2,10 @@
 
 var uiHandlers = function() {
 
-	var context = document.body;
-	var prev = "";
+	var context = document.getElementById("canvas");
 	var current = context.querySelector(".view.current");
-	var trigger = context.querySelector(".view.next");
+	var next = current.nextElementSibling;
+	var prev = current.previousElementSibling;
 	var reload = document.getElementById("reload");
 	var pressEvent =  ("ontouchstart" in window) ? "touchstart" : "mousedown";
 	var moveEvent = ("ontouchstart" in window) ? "touchmove" : "mousemove";
@@ -14,46 +14,50 @@ var uiHandlers = function() {
 	var OFFSET = 25*window.innerWidth/320;
 
 
-	resetViews();
-
 	// Reset to default state
 	function resetViews () {
-		trigger.classList.remove("notransition");
+		if (prev) {
+			prev.classList.remove("notransition");
+			prev.setAttribute("style", "");
+		}
+		if (next) {
+			next.classList.remove("notransition");
+			next.setAttribute("style", "");
+		}
 		current.classList.remove("notransition");
-		trigger.setAttribute("style", "");
 		current.setAttribute("style", "");
 	}
 
 	function move(e) {
 		coordinates.current = (e.touches) ? e.touches[0].pageX : e.clientX;
 
-		trigger.classList.add("notransition");
-		current.classList.add("notransition");
-
 		if (coordinates.init - coordinates.current >= 0) {
 			// To start
-			var amount = window.innerWidth - OFFSET - (coordinates.init - coordinates.current);
-			trigger.style.transform = "translateX("+amount+"px)";
-			current.style.opacity = (amount/window.innerWidth)
+			coordinates.direction = "start";
+			if (next) {
+				next.classList.add("notransition");
+				var amount = window.innerWidth - OFFSET - (coordinates.init - coordinates.current);
+				next.style.transform = "translateX("+amount+"px)";
+				current.style.opacity = (amount/window.innerWidth)
+			}
 
 		} else {
 			// To end
-			var amount =  coordinates.current - coordinates.init;
-			current.style.transform = "translateX("+amount+"px)";
-			prev.style.opacity = (amount/window.innerWidth)
+			coordinates.direction = "end";
+			if (prev) {
+				current.classList.add("notransition");
+				var amount =  coordinates.current - coordinates.init;
+				current.style.transform = "translateX("+amount+"px)";
+				prev.style.opacity = (amount/window.innerWidth)
+			}
 		}
 
 	}
 
 	function start() {
 		current = context.querySelector(".view.current");
-		trigger = context.querySelector(".view.next");
+		next = current.nextElementSibling;
 		prev = current.previousElementSibling;
-
-		// Check for last slide
-		if (!trigger) {
-			return;
-		}
 
 		context.addEventListener(moveEvent, move);
 		context.addEventListener(releaseEvent, end);
@@ -62,31 +66,50 @@ var uiHandlers = function() {
 	function end() {
 		resetViews();
 
-		// To start or end
-		if ( coordinates.current  <= window.innerWidth / 1.5 ) {
-			trigger.classList.remove("next");
-			// Check for last slide
-			if (trigger.nextElementSibling) {
-				current.classList.remove("current");
-				trigger.classList.add("current");
-				trigger.nextElementSibling.classList.add("next");
-			} else {
-				trigger.classList.add("last")
+		// // Swipe to start to start or end
+		if ( coordinates.direction == "end" ) {
+			if ( coordinates.current  >= window.innerWidth / 1.5 && prev ) {
+				current.dataset.viewport = "end";
+				if (next) {
+					next.classList.remove("next");
+				}
+				current.classList.remove("current")
+				current.classList.add("next")
+				current.previousElementSibling.classList.add("current");
 			}
-			trigger.dataset.viewport = "";
-			current.style.opacity = 0;
 		} else {
-			trigger.dataset.viewport = "end";
+			if ( coordinates.current  <= window.innerWidth / 1.5 && next ) {
+				next.classList.remove("next");
+				current.classList.remove("current");
+
+				// Check for last slide
+				if (next.nextElementSibling) {
+					next.classList.add("current");
+					next.nextElementSibling.classList.add("next");
+				} else {
+					next.classList.add("current");
+					next.classList.add("last")
+				}
+				next.dataset.viewport = "";
+				if (prev) {
+					prev.style.opacity = 0;
+				}
+				current.style.opacity = 0;
+			} else if (next) {
+				next.dataset.viewport = "end";
+			}
 		}
 
-		// Check for last slide and show reload
-		trigger.addEventListener("transitionend", function transEnd() {
+		if (next) {
+			// Check for last slide and show reload
+			next.addEventListener("transitionend", function transEnd() {
 
-			if (trigger.classList.contains("last")) {
-				reload.classList.remove("hidden")
-			}
-			this.removeEventListener("transitionend", transEnd)
-		});
+				if (next.classList.contains("last")) {
+					reload.classList.remove("hidden")
+				}
+				this.removeEventListener("transitionend", transEnd)
+			});
+		}
 
 		context.removeEventListener(moveEvent, move, false);
 		context.removeEventListener(releaseEvent, end, false);

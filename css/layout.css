@@ -11,36 +11,37 @@ html {
 /* Hidden elements */
 .hidden { display: none!important; }
 
-.view {
-	background: #fff;
-	position: absolute;
-	left: 0;
-	top: 0;
-	right: 2.5rem;
-	bottom: 0;
-	transform: translate(0);
-	transition: all 0.3s ease;
-	-moz-user-select: none;
-	pointer-events: none;
-}
-.view.notransition { transition: none; }
-.view.next { z-index: 5; }
+.wrapper { width: 100%; height: 100%; position: relative; }
+	.view {
+		background: #fff;
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 2.5rem;
+		bottom: 0;
+		transform: translate(0);
+		transition: all 0.3s ease;
+		-moz-user-select: none;
+		pointer-events: none;
+	}
+	.view.notransition { transition: none; }
+	.view.next { z-index: 5; }
 
-[data-viewport="end"] { transform: translateX(100%); }
-[data-viewport="start"] { transform: translateX(-100%); }
+	[data-viewport="end"] { transform: translateX(100%); }
+	[data-viewport="start"] { transform: translateX(-100%); }
 
-.reload { position: absolute; left: 1rem; bottom: 1rem; z-index: 5; }
+	.reload { position: absolute; left: 1rem; bottom: 1rem; z-index: 5; }
 
-	.view header { padding: 1rem; overflow: hidden; text-align: right; }
-		.view header figure { float: left; margin: 0 1rem; text-align: center; }
-		.view header h1 { font-size: 3.2rem; line-height: 1em; margin: 1rem 0 0.5rem; }
-		.view header p { font-size: 1.6rem; color: #8a8a8a; margin: 0; }
+		.view header { padding: 1rem; overflow: hidden; text-align: right; }
+			.view header figure { float: left; margin: 0 1rem; text-align: center; }
+			.view header h1 { font-size: 3.2rem; line-height: 1em; margin: 1rem 0 0.5rem; }
+			.view header p { font-size: 1.6rem; color: #8a8a8a; margin: 0; }
 
-	.view article { padding-left: 1rem }
-		.view article figure,
-		.view article p { display: inline-block; vertical-align: middle; }
-		.view article figure { margin: 0; }
-		.view article p { margin: 0; font-size: 2.2rem; line-height: 1em; color: #666; width: 11rem; }
+		.view article { padding-left: 1rem }
+			.view article figure,
+			.view article p { display: inline-block; vertical-align: middle; }
+			.view article figure { margin: 0; }
+			.view article p { margin: 0; font-size: 2.2rem; line-height: 1em; color: #666; width: 11rem; }
 
 
 
