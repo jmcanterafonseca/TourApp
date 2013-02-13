@@ -1,0 +1,13 @@
+{
+  "name": "Tour",
+  "description": "Walktrought main UI tips on FirefoxOS",
+  "launch_path": "index.html",
+  "icons": {
+    "60": "gphx/icons/app.png"
+  },
+  "developer": {
+    "name": "Ismael Gonzalez - @basiclines",
+    "url": "http://sweetbits.es"
+  },
+  "default_locale": "en"
+}
