@@ -12,7 +12,6 @@ var uiHandlers = function() {
 		var moveEvent = ("ontouchstart" in window) ? "touchmove" : "mousemove";
 		var releaseEvent = ("ontouchstart" in window) ? "touchend" :"mouseup";
 		var coordinates = { init: 0, current: 0 }
-		var OFFSET = 25*window.innerWidth/320;
 
 
 		// Reset to default state
@@ -37,7 +36,7 @@ var uiHandlers = function() {
 				coordinates.direction = "start";
 				if (next) {
 					next.classList.add("notransition");
-					var amount = window.innerWidth - OFFSET - (coordinates.init - coordinates.current);
+					var amount = window.innerWidth - (coordinates.init - coordinates.current);
 					next.style.transform = "translateX("+amount+"px)";
 					current.style.opacity = (amount/window.innerWidth)
 				}
