@@ -12,6 +12,7 @@ var uiHandlers = function() {
 		var moveEvent = ("ontouchstart" in window) ? "touchmove" : "mousemove";
 		var releaseEvent = ("ontouchstart" in window) ? "touchend" :"mouseup";
 		var coordinates = { init: 0, current: 0 }
+		var OFFSET = 30 * (window.innerWidth/320);
 
 
 		// Reset to default state
@@ -26,6 +27,8 @@ var uiHandlers = function() {
 			}
 			current.classList.remove("notransition");
 			current.setAttribute("style", "");
+			if (context.querySelector(".last")) {context.querySelector(".last").classList.remove("last");}
+			reload.classList.add("hidden");
 		}
 
 		function move(e) {
@@ -36,9 +39,9 @@ var uiHandlers = function() {
 				coordinates.direction = "start";
 				if (next) {
 					next.classList.add("notransition");
-					var amount = window.innerWidth - (coordinates.init - coordinates.current);
+					var amount = window.innerWidth + OFFSET - (coordinates.init - coordinates.current);
 					next.style.transform = "translateX("+amount+"px)";
-					current.style.opacity = (amount/window.innerWidth)
+					next.style.opacity = (1.2-amount/window.innerWidth)
 				}
 
 			} else {
@@ -48,7 +51,8 @@ var uiHandlers = function() {
 					current.classList.add("notransition");
 					var amount =  coordinates.current - coordinates.init;
 					current.style.transform = "translateX("+amount+"px)";
-					prev.style.opacity = (amount/window.innerWidth)
+					current.style.opacity = (1.2-amount/window.innerWidth)
+					if (next){next.classList.remove("next")}
 				}
 			}
 
@@ -75,12 +79,16 @@ var uiHandlers = function() {
 					}
 					current.classList.remove("current")
 					current.classList.add("next")
-					current.previousElementSibling.classList.add("current");
+					prev.classList.add("current");
+					prev.classList.remove("prev");
+					if (prev.previousElementSibling) {prev.previousElementSibling.classList.add("prev")}
 				}
 			} else {
 				if ( coordinates.current  <= window.innerWidth / 1.5 && next ) {
+					if (prev) {prev.classList.remove("prev");}
 					next.classList.remove("next");
 					current.classList.remove("current");
+					current.classList.add("prev");
 
 					// Check for last slide
 					if (next.nextElementSibling) {
@@ -88,13 +96,9 @@ var uiHandlers = function() {
 						next.nextElementSibling.classList.add("next");
 					} else {
 						next.classList.add("current");
-						next.classList.add("last")
+						next.classList.add("last");
 					}
 					next.dataset.viewport = "";
-					if (prev) {
-						prev.style.opacity = 0;
-					}
-					current.style.opacity = 0;
 				} else if (next) {
 					next.dataset.viewport = "end";
 				}
@@ -104,7 +108,7 @@ var uiHandlers = function() {
 				// Check for last slide and show reload
 				next.addEventListener("transitionend", function transEnd() {
 
-					if (next.classList.contains("last")) {
+					if (next && next.classList.contains("last")) {
 						reload.classList.remove("hidden")
 					}
 					this.removeEventListener("transitionend", transEnd)
