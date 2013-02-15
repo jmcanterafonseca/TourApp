@@ -47,8 +47,8 @@ html {
 		/* genric view elements */
 		.view .position { position: absolute; left: -0.5rem; top: 30rem; font-size: 9.6rem; color: #fff; padding: 0; }
 		.view figure { margin: 0 0 6rem -10rem; height: 25rem; position: relative; }
-			.view .screen { border-bottom: solid 0.1rem rgba(255, 255, 255, 0.3);}
-			.view .icon { position: absolute; left: 9rem; bottom: -4.7rem; }
+			.view .screen { border-bottom: solid 0.1rem rgba(255, 255, 255, 0.3); width: 39.5rem; }
+			.view .icon { position: absolute; left: 9rem; bottom: -4.7rem; width: 6.8rem; }
 			.view figcaption { font-size: 1.4rem; font-weight: 300; color: #fff; position: absolute; left: 16.5rem; bottom: -2.5rem; }
 
 		.view header {  border-bottom: 0.1rem solid #858585; }
@@ -62,10 +62,10 @@ html {
 		#tour-base.view { padding: 0; left: 0; right: 0; border: none; }
 		.view.outside { text-align: center; padding-right: 5rem; }
 			.view.outside figure { margin: 9.5rem 0 2rem; height: auto; }
+				.view.outside figure img { width: 19.5rem; }
 			.view.outside h1 {  font-size: 2.7rem; font-weight: 300;  color: #fff; text-transform: uppercase; margin-bottom: 0.5rem }
 			.view.outside h2 { font-size: 2.5rem; font-weight: 300; color: #ff4d00; margin-bottom: 2rem; }
 			.view.outside button { pointer-events: auto; }
-
 
 
 

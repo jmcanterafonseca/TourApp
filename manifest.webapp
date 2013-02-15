@@ -2,8 +2,9 @@
   "name": "Tour",
   "description": "Walktrought main UI tips on FirefoxOS",
   "launch_path": "index.html",
+  "fullscreen": "true",
   "icons": {
-    "60": "gphx/icons/app.png"
+    "64": "gphx/icons/app.png"
   },
   "developer": {
     "name": "Ismael Gonzalez - @basiclines",

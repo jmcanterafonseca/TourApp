@@ -1,0 +1,29 @@
+
+/*
+  This file is needed in order to fix: https://bugzilla.mozilla.org/show_bug.cgi?id=830644
+  as: https://bugzilla.mozilla.org/show_bug.cgi?id=828531 has not landed yet.
+
+  Using this file to support: https://bugzilla.mozilla.org/show_bug.cgi?id=830644 instead of https://bugzilla.mozilla.org/show_bug.cgi?id=828531 will raise this issues:;
+    - B2G always returns with 'min-resolution' 96dpi instead of real dpi
+    - B2G always returns with 'min--moz-device-pixel-ratio' 1 instead of real pixel ratio.
+*/
+
+
+/*
+  WVGA => QHD
+  Supported devices:
+    - 480x800:?;
+*/
+@media all and (min-device-width: 480px) {
+  html { font-size: 94%!important; }
+}
+
+
+/*
+  QHD => DVGA
+  Supported devices:
+    - Geeksphone Peak: 540×960:?;
+*/
+@media all and (min-device-width: 540px) {
+  html { font-size: 105%!important; }
+}
