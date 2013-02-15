@@ -7,12 +7,12 @@ var uiHandlers = function() {
 		var current = context.querySelector(".view.current");
 		var next = current.nextElementSibling;
 		var prev = current.previousElementSibling;
-		var reload = document.getElementById("reload");
+		var closeapp = document.getElementById("closeapp");
 		var pressEvent =  ("ontouchstart" in window) ? "touchstart" : "mousedown";
 		var moveEvent = ("ontouchstart" in window) ? "touchmove" : "mousemove";
 		var releaseEvent = ("ontouchstart" in window) ? "touchend" :"mouseup";
 		var coordinates = { init: 0, current: 0 }
-		var OFFSET = 30 * (window.innerWidth/320);
+		var OFFSET = 25 * (window.innerWidth/320);
 
 
 		// Reset to default state
@@ -28,7 +28,6 @@ var uiHandlers = function() {
 			current.classList.remove("notransition");
 			current.setAttribute("style", "");
 			if (context.querySelector(".last")) {context.querySelector(".last").classList.remove("last");}
-			reload.classList.add("hidden");
 		}
 
 		function move(e) {
@@ -38,7 +37,6 @@ var uiHandlers = function() {
 				// To start
 				coordinates.direction = "start";
 				if (next) {
-					next.classList.add("notransition");
 					var amount = window.innerWidth + OFFSET - (coordinates.init - coordinates.current);
 					next.style.transform = "translateX("+amount+"px)";
 					next.style.opacity = (1.2-amount/window.innerWidth)
@@ -48,7 +46,6 @@ var uiHandlers = function() {
 				// To end
 				coordinates.direction = "end";
 				if (prev) {
-					current.classList.add("notransition");
 					var amount =  coordinates.current - coordinates.init;
 					current.style.transform = "translateX("+amount+"px)";
 					current.style.opacity = (1.2-amount/window.innerWidth)
@@ -60,7 +57,13 @@ var uiHandlers = function() {
 
 		function start() {
 			current = context.querySelector(".view.current");
+			if (current) {
+				current.classList.add("notransition");
+			}
 			next = current.nextElementSibling;
+			if (next) {
+				next.classList.add("notransition");
+			}
 			prev = current.previousElementSibling;
 
 			context.addEventListener(moveEvent, move);
@@ -85,7 +88,9 @@ var uiHandlers = function() {
 				}
 			} else {
 				if ( coordinates.current  <= window.innerWidth / 1.5 && next ) {
-					if (prev) {prev.classList.remove("prev");}
+					if (prev) {
+						prev.classList.remove("prev");
+					}
 					next.classList.remove("next");
 					current.classList.remove("current");
 					current.classList.add("prev");
@@ -98,21 +103,10 @@ var uiHandlers = function() {
 						next.classList.add("current");
 						next.classList.add("last");
 					}
-					next.dataset.viewport = "";
+					next.dataset.viewport = "start";
 				} else if (next) {
 					next.dataset.viewport = "end";
 				}
-			}
-
-			if (next) {
-				// Check for last slide and show reload
-				next.addEventListener("transitionend", function transEnd() {
-
-					if (next && next.classList.contains("last")) {
-						reload.classList.remove("hidden")
-					}
-					this.removeEventListener("transitionend", transEnd)
-				});
 			}
 
 			context.removeEventListener(moveEvent, move, false);
@@ -127,8 +121,8 @@ var uiHandlers = function() {
 
 	initSwipe();
 
-	reload.addEventListener("click", function(){
-		window.location.href = window.location.href;
+	closeapp.addEventListener("click", function() {
+		window.close();
 	});
 
 

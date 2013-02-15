@@ -6,6 +6,7 @@
 		<title>Tour</title>
 
 		<link rel="stylesheet" type="text/css" href="css/layout.css">
+		<link rel="stylesheet" type="text/css" href="shared/style/buttons.css">
 
 		<script type="text/javascript" src="js/ui.js"></script>
 		<script type="text/javascript" src="js/ready.js"></script>
@@ -13,36 +14,91 @@
 
 	<body>
 
-		<button id="reload" class="reload hidden">Reload</button>
 
 		<div id="canvas" class="wrapper">
-			<!-- First -->
-			<section class="view current" role="region" id="tour0">
-				<figure><img src="gphx/views/tour_1.png" alt="five things" /></figure>
-				<h1>Great things</h1>
-				<h2>about your Firefox OS phone</h2>
+			<!-- BASE -->
+			<section class="view outside current" role="region" id="tour-base">
+				<figure><img src="gphx/views/00-base/icon.png" alt="five things" /></figure>
+				<h1>THINGS YOU’LL LOVE</h1>
+				<h2>about your new phone</h2>
 			</section>
 
-			<section class="view next" role="region" id="tour1" data-viewport="end">
-				<figure><img src="gphx/views/tour_2.png" alt="five things" /></figure>
+			<section class="view next" role="region" data-viewport="end">
+				<p class="position">1</p>
+				<figure>
+					<img class="screen" src="gphx/views/01-discover/screen.png"/>
+					<img class="icon" src="gphx/views/01-discover/icon.png"/>
+					<figcaption>Everything.me</figcaption>
+				</figure>
 				<header>
 					<h1>Discover</h1>
-					<h2>Content</h2>
+					<h2>Everything</h2>
 				</header>
-				<h3>1</h3>
-				<p>Access content without installing apps</p>
+				<p>The cloud is now on your home screen.</p>
 			</section>
 
-			<section class="view" role="region" id="tour2" data-viewport="end">
-
+			<section class="view" role="region"data-viewport="end">
+				<p class="position">2</p>
+				<figure>
+					<img class="screen" src="gphx/views/02-control/screen.png"/>
+					<img class="icon" src="gphx/views/02-control/icon.png"/>
+					<figcaption>Cost control</figcaption>
+				</figure>
+				<header>
+					<h1>Control</h1>
+					<h2>phone costs</h2>
+				</header>
+				<p>Real-time info helps you monitor phone and data usage.</p>
 			</section>
 
-			<section class="view" role="region" id="tour3" data-viewport="end">
-
+			<section class="view" role="region" data-viewport="end">
+				<p class="position">3</p>
+				<figure>
+					<img class="screen" src="gphx/views/03-instant/screen.png"/>
+					<img class="icon" src="gphx/views/03-instant/icon.png"/>
+					<figcaption>Homescreen</figcaption>
+				</figure>
+				<header>
+					<h1>Instant</h1>
+					<h2>access</h2>
+				</header>
+				<p>More of your apps and bookmarks are always just a tap away.</p>
 			</section>
 
-			<section class="view" role="region" id="tour4" data-viewport="end">
+			<section class="view" role="region" data-viewport="end">
+				<p class="position">4</p>
+				<figure>
+					<img class="screen" src="gphx/views/04-social/screen.png"/>
+					<img class="icon" src="gphx/views/04-social/icon.png"/>
+					<figcaption>Facebook</figcaption>
+				</figure>
+				<header>
+					<h1>Social</h1>
+					<h2>integration</h2>
+				</header>
+				<p>Bring your Facebook friends directly to your phone, no app necessary.</p>
+			</section>
 
+			<section class="view" role="region" data-viewport="end">
+				<p class="position">5</p>
+				<figure>
+					<img class="screen" src="gphx/views/05-limitless/screen.png"/>
+					<img class="icon" src="gphx/views/05-limitless/icon.png"/>
+				</figure>
+				<header>
+					<h1>LIMITLESS</h1>
+					<h2>content</h2>
+				</header>
+				<p>Direct access to all the apps on the Web, without the downloads or installations.</p>
+			</section>
+
+			<!-- END -->
+			<section class="view outside" role="region" data-viewport="end">
+				<p class="position">6</p>
+				<figure><img src="gphx/views/00-end/icon.png" alt="five things" /></figure>
+				<h1>ENJOY</h1>
+				<h2>your smart phone</h2>
+				<button class="recommend" id="closeapp">GO!</button>
 			</section>
 		</div>
 

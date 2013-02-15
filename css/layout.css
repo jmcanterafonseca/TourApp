@@ -15,72 +15,56 @@ html {
 	width: 100%;
 	height: 100%;
 	position: relative;
+	background: url(../gphx/views/background.png) repeat;
  }
 	.view {
 		position: absolute;
-		left: -7.5rem;
-		right: 3rem;
+		left: -2.5rem;
+		right: -6.5rem;
 		top: 0;
 		bottom: 0;
-		padding-left: 2.5rem;
+		padding: 0 5rem 0 9rem;
+		overflow: hidden;
 		transform: translate(0);
 		transition: all 0.3s ease;
 		-moz-user-select: none;
 		pointer-events: none;
+		opacity: 0;
 		border-left: 0.1rem solid #6b6e6f;
-		box-shadow: -7px 0 7px rgba(0,0,0,.25);
- 		background: url(../gphx/views/background.png) repeat;
+		box-shadow: -0.7rem 0 0.7rem rgba(0,0,0,.25);
+		background: url(../gphx/views/background.png) repeat;
 	}
 	.view.notransition { transition: none; }
 	.view.next { z-index: 5; opacity: 0.2; }
 	.view.current,
 	.view.prev { opacity: 1; }
 
-	[data-viewport="end"] { transform: translateX(100%); }
-	.view.notransition { transition: none; }
-	.view.next { z-index: 5; }
-	[data-viewport="end"] { transform: translateX(100%); }
-	
-	.view:after {
-		content: counter(section);
-		counter-increment: section;
-		position: absolute;
-		left: 0;
-		top: 0;
-		bottom: 0;
-		right: 0;
-		font-size: 3.2rem;
-		color: #333;
-	}
-	.view.next:after {
-		background: rgba(255,255,255,0.2);
-	}
+	[data-viewport="start"] { transform: translateX(-4rem); }
+	[data-viewport="end"] { transform: translateX(32rem); }
 
 	.reload { position: absolute; left: 1rem; bottom: 1rem; z-index: 5; }
 
-		.view { overflow: hidden; padding-left: 7.5rem; }
-			.view figure { margin: 0; width: 100%; }
-			.view h1 { color: #ff4d00; font-size: 3.9rem; text-shadow: 0 2px 2px rgba(0,0,0,.8); text-transform: uppercase; font-weight: 300; margin: 0 }
-			.view h2 { font-size: 1.9rem; color: #fff; font-weight: 300; text-shadow: 0 2px 2px rgba(0,0,0,.8);  }
-			.view h3 { opacity: 0.7; color: #fff; font-size: 10rem; font-weight: 300; position: absolute; left: 0; top: 35rem; margin: 0; }
-			.view p { font-size: 1.6rem; color: #fff; font-weight: 300; text-shadow: 0 2px 2px rgba(0,0,0,.8); margin: 1rem 0 0 2rem; width: 26rem; line-height: 1.8rem; }
+		/* genric view elements */
+		.view .position { position: absolute; left: -0.5rem; top: 30rem; font-size: 9.6rem; color: #fff; padding: 0; }
+		.view figure { margin: 0 0 6rem -10rem; height: 25rem; position: relative; }
+			.view .screen { border-bottom: solid 0.1rem rgba(255, 255, 255, 0.3);}
+			.view .icon { position: absolute; left: 9rem; bottom: -4.7rem; }
+			.view figcaption { font-size: 1.4rem; font-weight: 300; color: #fff; position: absolute; left: 16.5rem; bottom: -2.5rem; }
 
-			#tour0.view figure { text-align: center; margin: 11.5rem 0 0 1.2rem; }
-			#tour0.view h1 { margin: 2.5rem 0 0 0; line-height: 2rem; text-align: center; width: 32rem; }
-			#tour0.view h2 { width: 32rem; text-align: center; }
-			#tour1.view figure { margin-left: -7.5rem; height: 30rem; }
-
-			.view header { width: 26rem; padding-top: 2.6rem; margin-left: 2rem; border-bottom: 0.1rem solid #858585; }
-				.view header h1 { line-height: 2rem; color: #fff; font-size: 4.9rem; }
-				.view header h2 { line-height: 2rem; margin: 1.3rem 0 0.8rem 0; color: #ff4d00; font-size: 1.8rem; }
+		.view header {  border-bottom: 0.1rem solid #858585; }
+			.view h1, .view h2 { margin: 0; line-height: 1em; text-shadow: 0 0.2rem 0.2rem rgba(0,0,0,.8); }
+			.view header h1 { font-size: 5rem; font-weight: 300; color: #fff; text-transform: uppercase; text-shadow: 0 0.2rem 0.2rem rgba(0,0,0,.8); }
+			.view header h2 { font-size: 2rem; font-weight: 300; color: #ff4d00;  margin-bottom: 1rem; }
+		.view p { font-size: 1.6rem; color: #fff; line-height: 1em; font-weight: 300; padding-top: 1rem; margin: 0; }
 
 
-
-#tour2 { background: url(../gphx/views/dummy/TutorialWIDE_2.png) no-repeat; display: none; }
-#tour3 { background: url(../gphx/views/dummy/TutorialWIDE_3.png) no-repeat; display: none; }
-#tour4 { background: url(../gphx/views/dummy/TutorialWIDE_4.png) no-repeat; display: none; }
-
-
+		/*00-base and 00-end view*/
+		#tour-base.view { padding: 0; left: 0; right: 0; border: none; }
+		.view.outside { text-align: center; padding-right: 5rem; }
+			.view.outside figure { margin: 9.5rem 0 2rem; height: auto; }
+			.view.outside h1 {  font-size: 2.7rem; font-weight: 300;  color: #fff; text-transform: uppercase; margin-bottom: 0.5rem }
+			.view.outside h2 { font-size: 2.5rem; font-weight: 300; color: #ff4d00; margin-bottom: 2rem; }
+			.view.outside button { pointer-events: auto; }
 
 
 
