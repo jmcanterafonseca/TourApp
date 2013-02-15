@@ -39,7 +39,7 @@ var uiHandlers = function() {
 				if (next) {
 					var amount = window.innerWidth + OFFSET - (coordinates.init - coordinates.current);
 					next.style.transform = "translateX("+amount+"px)";
-					next.style.opacity = (1.2-amount/window.innerWidth)
+					next.querySelector(".overlay").style.opacity = (amount/window.innerWidth);
 				}
 
 			} else {
@@ -48,7 +48,8 @@ var uiHandlers = function() {
 				if (prev) {
 					var amount =  coordinates.current - coordinates.init;
 					current.style.transform = "translateX("+amount+"px)";
-					current.style.opacity = (1.2-amount/window.innerWidth)
+					current.querySelector(".overlay").style.opacity = (amount/window.innerWidth);
+					current.querySelector(".position").style.transform = "translateX("+amount/window.innerWidth+"px)";
 					if (next){next.classList.remove("next")}
 				}
 			}
@@ -91,6 +92,7 @@ var uiHandlers = function() {
 					if (prev) {
 						prev.classList.remove("prev");
 					}
+					next.querySelector(".overlay").style.opacity = 0;
 					next.classList.remove("next");
 					current.classList.remove("current");
 					current.classList.add("prev");

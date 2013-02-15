@@ -35,7 +35,7 @@ html {
 		background: url(../gphx/views/background.png) repeat;
 	}
 	.view.notransition { transition: none; }
-	.view.next { z-index: 5; opacity: 0.2; }
+	.view.next { z-index: 5; opacity: 1; }
 	.view.current,
 	.view.prev { opacity: 1; }
 
@@ -45,6 +45,9 @@ html {
 	.reload { position: absolute; left: 1rem; bottom: 1rem; z-index: 5; }
 
 		/* genric view elements */
+		.view .overlay { position: absolute; left: 0; top: 0; right:0; bottom: 0; background: rgba(255,255,255,0.2); pointer-events: none; opacity:0; }
+		.view.next .overlay { opacity: 1; }
+		.view.current .overlay { opacity: 0; }
 		.view .position { position: absolute; left: -0.5rem; top: 30rem; font-size: 9.6rem; color: #fff; padding: 0; }
 		.view figure { margin: 0 0 6rem -10rem; height: 25rem; position: relative; }
 			.view .screen { border-bottom: solid 0.1rem rgba(255, 255, 255, 0.3); width: 39.5rem; }
