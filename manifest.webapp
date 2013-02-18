@@ -4,7 +4,7 @@
   "launch_path": "index.html",
   "fullscreen": "true",
   "icons": {
-    "64": "gphx/icons/app.png"
+    "30": "gphx/icons/app.png"
   },
   "developer": {
     "name": "Ismael Gonzalez - @basiclines",

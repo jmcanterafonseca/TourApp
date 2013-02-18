@@ -31,7 +31,7 @@ html {
 		pointer-events: none;
 		opacity: 0;
 		border-left: 0.1rem solid #6b6e6f;
-		box-shadow: -0.7rem 0 0.7rem rgba(0,0,0,.25);
+		/*box-shadow: -0.7rem 0 0.7rem rgba(0,0,0,.25);*/
 		background: url(../gphx/views/background.png) repeat;
 	}
 	.view.notransition { transition: none; }
@@ -45,19 +45,51 @@ html {
 	.reload { position: absolute; left: 1rem; bottom: 1rem; z-index: 5; }
 
 		/* genric view elements */
-		.view .overlay { position: absolute; left: 0; top: 0; right:0; bottom: 0; background: rgba(255,255,255,0.2); pointer-events: none; opacity:0; }
+		.view .overlay {
+			position: absolute;
+			left: 0;
+			top: 0;
+			right:0;
+			bottom: 0;
+			background: rgba(255,255,255,0.2);
+			pointer-events: none;
+			opacity: 0;
+		}
 		.view.next .overlay { opacity: 1; }
-		.view .position { position: absolute; left: -0.5rem; top: 30rem; font-size: 9.6rem; color: #fff; padding: 0; font-weight: normal; }
+		.view .position {
+			position: absolute;
+			left: -0.5rem;
+			top: 30rem;
+			font-size: 9.6rem;
+			color: #fff;
+			padding: 0;
+			font-weight: normal;
+		}
 		.view figure { margin: 0 0 6rem -10rem; height: 25rem; position: relative; }
 			.view .screen { border-bottom: solid 0.1rem rgba(255, 255, 255, 0.3); width: 39.5rem; }
 			.view .icon { position: absolute; left: 9.5rem; bottom: -4.7rem; width: 6.8rem; }
-			.view figcaption { font-size: 1.4rem; font-weight: 300; color: #fff; position: absolute; left: 17rem; bottom: -1.9rem; text-shadow: 0.1rem 0.2rem 0.2rem rgba(0,0,0,.75); }
+			.view figcaption {
+				font-size: 1.4rem;
+				font-weight: 300;
+				color: #fff;
+				position: absolute;
+				left: 17rem;
+				bottom: -1.9rem;
+				/*text-shadow: 0.1rem 0.2rem 0.2rem rgba(0,0,0,.75);*/
+			}
 
 		.view header {  border-bottom: 0.1rem solid #858585; }
-			.view h1, .view h2 { margin: 0; line-height: 1em; text-shadow: 0 0.2rem 0.2rem rgba(0,0,0,.8); }
-			.view header h1 { font-size: 5rem; font-weight: 300; color: #fff; text-transform: uppercase; text-shadow: 0 0.2rem 0.2rem rgba(0,0,0,.8); }
+			.view h1, .view h2 { margin: 0; line-height: 1em; /*text-shadow: 0 0.2rem 0.2rem rgba(0,0,0,.8);*/ }
+			.view header h1 { font-size: 5rem; font-weight: 300; color: #fff; text-transform: uppercase; /*text-shadow: 0 0.2rem 0.2rem rgba(0,0,0,.8);*/ }
 			.view header h2 { font-size: 2rem; font-weight: 300; color: #00a5c6;  margin-bottom: 0.7rem; }
-		.view p { font-size: 1.6rem; color: #fff; line-height: 1.1em; font-weight: 300; padding-top: 1rem; margin: 0; }
+		.view p {
+			font-size: 1.6rem;
+			color: #fff;
+			line-height: 1.1em;
+			font-weight: 300;
+			padding-top: 1rem;
+			margin: 0;
+		}
 
 
 		/*00-base and 00-end view*/
@@ -65,7 +97,13 @@ html {
 		.view.outside { text-align: center; padding-right: 5rem; }
 			.view.outside figure { margin: 10.5rem 0 2.5rem -2.5rem; height: auto; }
 				.view.outside figure img { width: 19.5rem; }
-			.view.outside h1 {  font-size: 2.7rem; font-weight: normal;  color: #fff; text-transform: uppercase; margin:0 0 0.5rem -1.5rem; }
+			.view.outside h1 {
+				font-size: 2.7rem;
+				font-weight: normal;
+				color: #fff;
+				text-transform: uppercase;
+				margin:0 0 0.5rem -1.5rem;
+			}
 			.view.outside h2 { font-size: 2.5rem; font-weight: 300; color: #00a5c6; margin: 0 0 2rem -1.5rem; }
 			.view.outside h2 em { color: #fff; font-style: normal; }
 			.view.outside button { pointer-events: auto; }

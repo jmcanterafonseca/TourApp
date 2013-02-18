@@ -8,6 +8,7 @@ var uiHandlers = function() {
 		var next = current.nextElementSibling;
 		var prev = current.previousElementSibling;
 		var closeapp = document.getElementById("closeapp");
+
 		var pressEvent =  ("ontouchstart" in window) ? "touchstart" : "mousedown";
 		var moveEvent = ("ontouchstart" in window) ? "touchmove" : "mousemove";
 		var releaseEvent = ("ontouchstart" in window) ? "touchend" :"mouseup";
@@ -27,7 +28,9 @@ var uiHandlers = function() {
 			}
 			current.classList.remove("notransition");
 			current.setAttribute("style", "");
-			if (context.querySelector(".last")) {context.querySelector(".last").classList.remove("last");}
+			if (context.querySelector(".last")) {
+				context.querySelector(".last").classList.remove("last");
+			}
 		}
 
 		function move(e) {
@@ -37,7 +40,7 @@ var uiHandlers = function() {
 				// To start
 				coordinates.direction = "start";
 				if (next) {
-					var amount = window.innerWidth + OFFSET - (coordinates.init - coordinates.current);
+					var amount = window.innerWidth - OFFSET - (coordinates.init - coordinates.current);
 					next.style.transform = "translateX("+amount+"px)";
 					current.querySelector(".overlay").style.background = "#000";
 					current.querySelector(".overlay").style.opacity = (1.3-amount/window.innerWidth);
@@ -56,7 +59,9 @@ var uiHandlers = function() {
 					current.querySelector(".overlay").style.opacity = (amount/window.innerWidth);
 					current.querySelector(".position").style.transform = "translateX("+((window.innerWidth-amount-1)/10)+"px)";
 					current.querySelector(".position").style.opacity = (amount/window.innerWidth);
-					if (next){next.classList.remove("next")}
+					if (next) {
+						next.classList.remove("next")
+					}
 				}
 			}
 
