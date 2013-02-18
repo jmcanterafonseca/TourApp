@@ -68,7 +68,7 @@ html {
 			.view.outside h1 {  font-size: 2.7rem; font-weight: normal;  color: #fff; text-transform: uppercase; margin:0 0 0.5rem -1.5rem; }
 			.view.outside h2 { font-size: 2.5rem; font-weight: 300; color: #00a5c6; margin: 0 0 2rem -1.5rem; }
 			.view.outside button { pointer-events: auto; }
-		
+
 		#tour-end.view { padding: 0 4rem 0 8rem; }
 			#tour-end.view.outside figure { margin: 11rem 0 0 1rem; }
 			#tour-end.view.outside h1 {  font-size: 5.5rem; font-weight: 300;  color: #fff; text-transform: uppercase; margin: 0; }
@@ -76,6 +76,9 @@ html {
 
 		/*view-01*/
 		#tour-1.view .position { left: -0.8rem; }
+
+		/*view-05 limitless*/
+		#tour-5 .icon { width: 5.6rem; }
 
 
 
