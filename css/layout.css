@@ -24,7 +24,7 @@ html {
 		right: -6.5rem;
 		top: 0;
 		bottom: 0;
-		padding: 0 6.5rem 0 8.5rem;
+		padding: 0 6.5rem 0 9rem;
 		overflow: hidden;
 		transform: translate(0);
 		transition: all 0.3s ease;
@@ -36,7 +36,7 @@ html {
 		background: url(../gphx/views/background.png) repeat;
 	}
 	.notransition { transition: none!important; }
-	.view.next { z-index: 5; opacity: 1; }
+	.view.next { z-index: 5; opacity: 0.6; }
 	.view.next .overlay { opacity: 1; background: rgba(255, 255, 255, 0.2); }
 	.view.current,
 	.view.prev { opacity: 1; }
