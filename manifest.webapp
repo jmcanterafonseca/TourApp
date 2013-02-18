@@ -3,6 +3,7 @@
   "description": "Walktrought main UI tips on FirefoxOS",
   "launch_path": "index.html",
   "fullscreen": "true",
+  "orientation": ["portrait"],
   "icons": {
     "30": "gphx/icons/app.png"
   },
