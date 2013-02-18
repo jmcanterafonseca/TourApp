@@ -23,7 +23,7 @@ html {
 		right: -6.5rem;
 		top: 0;
 		bottom: 0;
-		padding: 0 5rem 0 9rem;
+		padding: 0 6.5rem 0 8.5rem;
 		overflow: hidden;
 		transform: translate(0);
 		transition: all 0.3s ease;
@@ -47,28 +47,35 @@ html {
 		/* genric view elements */
 		.view .overlay { position: absolute; left: 0; top: 0; right:0; bottom: 0; background: rgba(255,255,255,0.2); pointer-events: none; opacity:0; }
 		.view.next .overlay { opacity: 1; }
-		.view.current .overlay { opacity: 0; }
-		.view .position { position: absolute; left: -0.5rem; top: 30rem; font-size: 9.6rem; color: #fff; padding: 0; }
+		.view .position { position: absolute; left: -0.5rem; top: 30rem; font-size: 9.6rem; color: #fff; padding: 0; font-weight: normal; }
 		.view figure { margin: 0 0 6rem -10rem; height: 25rem; position: relative; }
 			.view .screen { border-bottom: solid 0.1rem rgba(255, 255, 255, 0.3); width: 39.5rem; }
-			.view .icon { position: absolute; left: 9rem; bottom: -4.7rem; width: 6.8rem; }
-			.view figcaption { font-size: 1.4rem; font-weight: 300; color: #fff; position: absolute; left: 16.5rem; bottom: -2.5rem; }
+			.view .icon { position: absolute; left: 9.5rem; bottom: -4.7rem; width: 6.8rem; }
+			.view figcaption { font-size: 1.4rem; font-weight: 300; color: #fff; position: absolute; left: 17rem; bottom: -1.9rem; text-shadow: 0.1rem 0.2rem 0.2rem rgba(0,0,0,.75); }
 
 		.view header {  border-bottom: 0.1rem solid #858585; }
 			.view h1, .view h2 { margin: 0; line-height: 1em; text-shadow: 0 0.2rem 0.2rem rgba(0,0,0,.8); }
 			.view header h1 { font-size: 5rem; font-weight: 300; color: #fff; text-transform: uppercase; text-shadow: 0 0.2rem 0.2rem rgba(0,0,0,.8); }
-			.view header h2 { font-size: 2rem; font-weight: 300; color: #ff4d00;  margin-bottom: 1rem; }
-		.view p { font-size: 1.6rem; color: #fff; line-height: 1em; font-weight: 300; padding-top: 1rem; margin: 0; }
+			.view header h2 { font-size: 2rem; font-weight: 300; color: #00a5c6;  margin-bottom: 0.7rem; }
+		.view p { font-size: 1.6rem; color: #fff; line-height: 1.1em; font-weight: 300; padding-top: 1rem; margin: 0; }
 
 
 		/*00-base and 00-end view*/
 		#tour-base.view { padding: 0; left: 0; right: 0; border: none; }
 		.view.outside { text-align: center; padding-right: 5rem; }
-			.view.outside figure { margin: 9.5rem 0 2rem; height: auto; }
+			.view.outside figure { margin: 10.5rem 0 2.5rem -2.5rem; height: auto; }
 				.view.outside figure img { width: 19.5rem; }
-			.view.outside h1 {  font-size: 2.7rem; font-weight: 300;  color: #fff; text-transform: uppercase; margin-bottom: 0.5rem }
-			.view.outside h2 { font-size: 2.5rem; font-weight: 300; color: #ff4d00; margin-bottom: 2rem; }
+			.view.outside h1 {  font-size: 2.7rem; font-weight: normal;  color: #fff; text-transform: uppercase; margin:0 0 0.5rem -1.5rem; }
+			.view.outside h2 { font-size: 2.5rem; font-weight: 300; color: #00a5c6; margin: 0 0 2rem -1.5rem; }
 			.view.outside button { pointer-events: auto; }
+		
+		#tour-end.view { padding: 0 4rem 0 8rem; }
+			#tour-end.view.outside figure { margin: 11rem 0 0 1rem; }
+			#tour-end.view.outside h1 {  font-size: 5.5rem; font-weight: 300;  color: #fff; text-transform: uppercase; margin: 0; }
+			#tour-end.view.outside h2 { margin: 0 0 3.7rem; }
+
+		/*view-01*/
+		#tour-1.view .position { left: -0.8rem; }
 
 
 

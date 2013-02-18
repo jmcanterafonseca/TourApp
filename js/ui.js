@@ -39,6 +39,8 @@ var uiHandlers = function() {
 				if (next) {
 					var amount = window.innerWidth + OFFSET - (coordinates.init - coordinates.current);
 					next.style.transform = "translateX("+amount+"px)";
+					current.querySelector(".overlay").style.background = "#000";
+					current.querySelector(".overlay").style.opacity = (1-amount/window.innerWidth);
 					next.querySelector(".overlay").style.opacity = (amount/window.innerWidth);
 				}
 
@@ -48,8 +50,10 @@ var uiHandlers = function() {
 				if (prev) {
 					var amount =  coordinates.current - coordinates.init;
 					current.style.transform = "translateX("+amount+"px)";
+					current.querySelector(".overlay").style.background = "rgba(255,255,255,0.2)";
 					current.querySelector(".overlay").style.opacity = (amount/window.innerWidth);
-					current.querySelector(".position").style.transform = "translateX("+amount/window.innerWidth+"px)";
+					prev.querySelector(".overlay").style.opacity = (1-amount/window.innerWidth);
+					//current.querySelector(".position").style.transform = "translateX("+amount/window.innerWidth+"px)";
 					if (next){next.classList.remove("next")}
 				}
 			}
@@ -81,6 +85,8 @@ var uiHandlers = function() {
 					if (next) {
 						next.classList.remove("next");
 					}
+					prev.querySelector(".overlay").style.opacity = 0;
+					current.querySelector(".overlay").style.opacity = 1;
 					current.classList.remove("current")
 					current.classList.add("next")
 					prev.classList.add("current");
