@@ -14,10 +14,10 @@ var uiHandlers = function() {
 		var releaseEvent = ("ontouchstart" in window) ? "touchend" :"mouseup";
 		var coordinates = { init: 0, current: 0 }
 		var OFFSET = 25 * (window.innerWidth/320);
+		var delay = 8000;
 
 		var autoPlay = function() {
 
-			var delay = 3500;
 			context.classList.add("autoplay");
 			function nextSlide() {
 				if (next) {
@@ -149,7 +149,7 @@ var uiHandlers = function() {
 			queueRepeat = setTimeout(function(){
 				refreshNodes();
 				autoPlay();
-			}, 3500);
+			}, delay);
 
 			// // Swipe to start to start or end
 			if ( coordinates.direction == "end" ) {
@@ -159,7 +159,6 @@ var uiHandlers = function() {
 						next.classList.remove("next");
 					}
 
-					//prev.querySelector(".overlay").style.background = "rgba(255,255,255,0.2)";
 					overlayPrev.style.opacity = 0;
 					overlayCurrent.style.opacity = 1;
 					positionCurrent.style.opacity = 1;
