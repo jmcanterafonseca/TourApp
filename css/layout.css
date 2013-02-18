@@ -67,6 +67,7 @@ html {
 				.view.outside figure img { width: 19.5rem; }
 			.view.outside h1 {  font-size: 2.7rem; font-weight: normal;  color: #fff; text-transform: uppercase; margin:0 0 0.5rem -1.5rem; }
 			.view.outside h2 { font-size: 2.5rem; font-weight: 300; color: #00a5c6; margin: 0 0 2rem -1.5rem; }
+			.view.outside h2 em { color: #fff; font-style: normal; }
 			.view.outside button { pointer-events: auto; }
 
 		#tour-end.view { padding: 0 4rem 0 8rem; }

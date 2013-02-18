@@ -40,8 +40,10 @@ var uiHandlers = function() {
 					var amount = window.innerWidth + OFFSET - (coordinates.init - coordinates.current);
 					next.style.transform = "translateX("+amount+"px)";
 					current.querySelector(".overlay").style.background = "#000";
-					current.querySelector(".overlay").style.opacity = (1-amount/window.innerWidth);
+					current.querySelector(".overlay").style.opacity = (1.3-amount/window.innerWidth);
 					next.querySelector(".overlay").style.opacity = (amount/window.innerWidth);
+					next.querySelector(".position").style.transform = "translateX("+((window.innerWidth-amount-1)/10)+"px)";
+					next.querySelector(".position").style.opacity = ((amount/2)/window.innerWidth);
 				}
 
 			} else {
@@ -52,8 +54,8 @@ var uiHandlers = function() {
 					current.style.transform = "translateX("+amount+"px)";
 					current.querySelector(".overlay").style.background = "rgba(255,255,255,0.2)";
 					current.querySelector(".overlay").style.opacity = (amount/window.innerWidth);
-					prev.querySelector(".overlay").style.opacity = (1-amount/window.innerWidth);
-					//current.querySelector(".position").style.transform = "translateX("+amount/window.innerWidth+"px)";
+					current.querySelector(".position").style.transform = "translateX("+((window.innerWidth-amount-1)/10)+"px)";
+					current.querySelector(".position").style.opacity = (amount/window.innerWidth);
 					if (next){next.classList.remove("next")}
 				}
 			}
@@ -87,11 +89,16 @@ var uiHandlers = function() {
 					}
 					prev.querySelector(".overlay").style.opacity = 0;
 					current.querySelector(".overlay").style.opacity = 1;
+					current.querySelector(".position").style.opacity = 1;
+					current.querySelector(".position").style.transform = "translateX(0px)";
 					current.classList.remove("current")
 					current.classList.add("next")
 					prev.classList.add("current");
 					prev.classList.remove("prev");
 					if (prev.previousElementSibling) {prev.previousElementSibling.classList.add("prev")}
+				} else {
+					//Not moved
+					current.querySelector(".position").style.opacity = 0;
 				}
 			} else {
 				if ( coordinates.current  <= window.innerWidth / 1.5 && next ) {
@@ -113,6 +120,10 @@ var uiHandlers = function() {
 					}
 					next.dataset.viewport = "start";
 				} else if (next) {
+					//Not moved
+					current.querySelector(".overlay").style.opacity = 0;
+					next.querySelector(".position").style.opacity = 1;
+					next.querySelector(".position").style.transform = "translateX(0px)";
 					next.dataset.viewport = "end";
 				}
 			}
