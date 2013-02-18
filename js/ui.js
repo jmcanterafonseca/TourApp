@@ -52,8 +52,8 @@ var uiHandlers = function() {
 				if (prev) {
 					var amount =  coordinates.current - coordinates.init;
 					current.style.transform = "translateX("+amount+"px)";
-					current.querySelector(".overlay").style.background = "rgba(255,255,255,0.2)";
-					current.querySelector(".overlay").style.opacity = (amount/window.innerWidth);
+					prev.querySelector(".overlay").style.background = "rgba(255,255,255,0.2)";
+					prev.querySelector(".overlay").style.opacity = (1-amount/window.innerWidth);
 					current.querySelector(".position").style.transform = "translateX("+((window.innerWidth-amount-1)/10)+"px)";
 					current.querySelector(".position").style.opacity = (amount/window.innerWidth);
 					if (next){next.classList.remove("next")}
@@ -87,6 +87,7 @@ var uiHandlers = function() {
 					if (next) {
 						next.classList.remove("next");
 					}
+					//prev.querySelector(".overlay").style.background = "rgba(255,255,255,0.2)";
 					prev.querySelector(".overlay").style.opacity = 0;
 					current.querySelector(".overlay").style.opacity = 1;
 					current.querySelector(".position").style.opacity = 1;
@@ -121,6 +122,7 @@ var uiHandlers = function() {
 					next.dataset.viewport = "start";
 				} else if (next) {
 					//Not moved
+					current.querySelector(".overlay").style.background = "rgba(255,255,255,0.2)";
 					current.querySelector(".overlay").style.opacity = 0;
 					next.querySelector(".position").style.opacity = 1;
 					next.querySelector(".position").style.transform = "translateX(0px)";
