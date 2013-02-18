@@ -117,11 +117,11 @@ var uiHandlers = function() {
 					var amount =  coordinates.current - coordinates.init;
 					current.style.transform = "translateX("+amount+"px)";
 					overlayPrev.style.background = "rgba(255,255,255,0.2)";
-					overlayPrev.style.opacity = (1.3-amount/window.innerWidth < 1) ? 1.3-amount/window.innerWidth : 1 ;
+					overlayPrev.style.opacity = (1-amount/window.innerWidth);
 					positionCurrent.style.transform = "translateX("+((window.innerWidth-amount-1)/10)+"px)";
 					positionCurrent.style.opacity = (amount/window.innerWidth);
 					if (next) {
-						next.classList.remove("next")
+						next.classList.remove("next");
 					}
 				}
 			}
@@ -158,6 +158,8 @@ var uiHandlers = function() {
 					if (next) {
 						next.classList.remove("next");
 					}
+
+					//prev.querySelector(".overlay").style.background = "rgba(255,255,255,0.2)";
 					overlayPrev.style.opacity = 0;
 					overlayCurrent.style.opacity = 1;
 					positionCurrent.style.opacity = 1;
@@ -194,6 +196,7 @@ var uiHandlers = function() {
 					next.dataset.viewport = "start";
 				} else if (next) {
 					//Not moved
+					overlayCurrent.style.background = "rgba(255,255,255,0.2)";
 					overlayCurrent.style.opacity = 0;
 					positionNext.style.opacity = 1;
 					positionNext.style.transform = "translateX(0px)";
