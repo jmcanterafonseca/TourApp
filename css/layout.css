@@ -44,10 +44,6 @@ html {
 	[data-viewport="start"] { transform: translateX(-4rem); }
 	[data-viewport="end"] { transform: translateX(32rem); }
 
-	/* Last view and currently shown */
-	.view.last[data-viewport="start"] { left: 0; right: 0; padding: 0 5rem 0 2.5rem; transform: translateX(2.5rem); }
-	.view.last[data-viewport="start"] .position { display: none; }
-
 
 	.reload { position: absolute; left: 1rem; bottom: 1rem; z-index: 5; }
 
@@ -113,7 +109,8 @@ html {
 			.view.outside h2 em { color: #fff; font-style: normal; }
 			.view.outside button { pointer-events: auto; }
 
-		/* Las view */
+		/* Last view */
+		#tour-end.last .position {  left: 4.5rem; }
 		#tour-end.view.outside figure { margin: 11rem 0 0 1rem; }
 		#tour-end.view.outside h1 {  font-size: 5.5rem; font-weight: 300;  color: #fff; text-transform: uppercase; margin: 0; }
 		#tour-end.view.outside h2 { margin: 0 0 3.7rem; }

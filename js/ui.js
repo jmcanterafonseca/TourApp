@@ -6,7 +6,7 @@ var uiHandlers = function() {
 	var initSwipe = function() {
 		var context = document.getElementById("canvas");
 		var closeapp = document.getElementById("closeapp");
-		var current, overlayCurrent, positionCurrent, next, overlayNext, positionNext, prev, overlayPrev, positionPrev;
+		var current, overlayCurrent, positionCurrent, next, overlayNext, positionNext, prev, overlayPrev, positionPrev, last, positionLast;
 
 		var repeat, queueRepeat;
 		var pressEvent =  ("ontouchstart" in window) ? "touchstart" : "mousedown";
@@ -75,6 +75,11 @@ var uiHandlers = function() {
 				overlayPrev = prev.querySelector(".overlay");
 				positionPrev = prev.querySelector(".position");
 			}
+
+			last = context.querySelector(".last");
+			if (last) {
+				positionLast = last.querySelector(".position");
+			}
 		}
 
 		// Reset to default state
@@ -89,8 +94,13 @@ var uiHandlers = function() {
 			}
 			current.classList.remove("notransition");
 			current.setAttribute("style", "");
-			if (context.querySelector(".last")) {
-				context.querySelector(".last").classList.remove("last");
+			if (last) {
+				last.addEventListener("transitionend", function endTrans() {
+					positionLast.innerHTML = ">";
+					positionLast.removeAttribute("style");
+					last.classList.remove("last");
+					this.removeEventListener("transitionend", endTrans);
+				});
 			}
 		}
 
@@ -195,6 +205,8 @@ var uiHandlers = function() {
 					} else {
 						next.classList.add("current");
 						next.classList.add("last");
+						positionNext.innerHTML = "<"
+						positionNext.style.opacity = "0.8"
 					}
 					next.dataset.viewport = "start";
 				} else if (next) {
@@ -206,7 +218,12 @@ var uiHandlers = function() {
 					next.dataset.viewport = "end";
 				} else {
 					// Check last again
-					current.classList.add("last")
+					current.classList.add("last");
+					positionCurrent.addEventListener("transitionend", function endTrans(){
+						positionCurrent.innerHTML = "<";
+						positionCurrent.style.opacity = "0.8";
+						this.removeEventListener("transitionend", endTrans);
+					});
 				}
 			}
 
