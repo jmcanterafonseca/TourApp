@@ -3,10 +3,11 @@
   "description": "Walktrought main UI tips on FirefoxOS",
   "launch_path": "index.html",
   "fullscreen": "true",
-  "orientation": ["portrait"],
   "icons": {
-    "30": "gphx/icons/app.png"
+    "120": "/gphx/icons/app.png",
+    "60": "/gphx/icons/app.png"
   },
+  "orientation": ["portrait"],
   "developer": {
     "name": "Ismael Gonzalez - @basiclines",
     "url": "http://basiclines.es"

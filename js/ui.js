@@ -204,6 +204,9 @@ var uiHandlers = function() {
 					positionNext.style.opacity = 1;
 					positionNext.style.transform = "translateX(0px)";
 					next.dataset.viewport = "end";
+				} else {
+					// Check last again
+					current.classList.add("last")
 				}
 			}
 
