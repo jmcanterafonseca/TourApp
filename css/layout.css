@@ -124,6 +124,7 @@ html {
 /* Autoplay fixes */
 .autoplay .view { transition: all 0.6s ease; }
 .autoplay .overlay { transition: all 0.8s ease; background: #000; opacity: 0; }
+.autoplay #tour-end { display: none; }
 
 
 

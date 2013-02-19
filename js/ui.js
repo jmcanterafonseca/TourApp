@@ -19,6 +19,12 @@ var uiHandlers = function() {
 		var autoPlay = function() {
 
 			context.classList.add("autoplay");
+			var views = context.querySelectorAll(".view");
+
+			for (var i = 0; i < views.length; i++) {
+				views[i].querySelector(".overlay").removeAttribute("style");
+			}
+
 			function nextSlide() {
 				if (next) {
 					// anonymous becomes next
@@ -44,9 +50,27 @@ var uiHandlers = function() {
 							prev.classList.remove("prev");
 						}
 					} else {
-						// Last slide and reload app
-						window.location.href = window.location.href
-						clearInterval(repeat);
+						// Last slide and reset app
+						for (var i = 0; i < views.length; i++) {
+							// Clean all
+							views[i].classList.remove("prev");
+							views[i].classList.remove("current");
+							views[i].classList.remove("next");
+							views[i].classList.remove("last");
+							views[i].querySelector(".overlay").removeAttribute("style");
+
+							// Set initial order
+							if (!i == 0) {
+								views[i].dataset.viewport = "end"
+							} else {
+								views[i].classList.add("current");
+							}
+							if ( i == 1 ) {
+								views[i].classList.add("next");
+							}
+						}
+						resetViews();
+						refreshNodes();
 					}
 
 				}
