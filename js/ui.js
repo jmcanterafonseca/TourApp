@@ -6,7 +6,9 @@ var uiHandlers = function() {
 	var initSwipe = function() {
 		var context = document.getElementById("canvas");
 		var closeapp = document.getElementById("closeapp");
+		var reloadapp = document.getElementById("reloadapp");
 		var current, overlayCurrent, positionCurrent, next, overlayNext, positionNext, prev, overlayPrev, positionPrev, last, positionLast;
+		var views = context.querySelectorAll(".view");
 
 		var repeat, queueRepeat;
 		var pressEvent =  ("ontouchstart" in window) ? "touchstart" : "mousedown";
@@ -19,8 +21,6 @@ var uiHandlers = function() {
 		var autoPlay = function() {
 
 			context.classList.add("autoplay");
-			var views = context.querySelectorAll(".view");
-
 			for (var i = 0; i < views.length; i++) {
 				views[i].querySelector(".overlay").removeAttribute("style");
 			}
@@ -50,27 +50,8 @@ var uiHandlers = function() {
 							prev.classList.remove("prev");
 						}
 					} else {
-						// Last slide and reset app
-						for (var i = 0; i < views.length; i++) {
-							// Clean all
-							views[i].classList.remove("prev");
-							views[i].classList.remove("current");
-							views[i].classList.remove("next");
-							views[i].classList.remove("last");
-							views[i].querySelector(".overlay").removeAttribute("style");
-
-							// Set initial order
-							if (!i == 0) {
-								views[i].dataset.viewport = "end"
-							} else {
-								views[i].classList.add("current");
-							}
-							if ( i == 1 ) {
-								views[i].classList.add("next");
-							}
-						}
-						resetViews();
-						refreshNodes();
+						// Last slide and reload app
+						reloadApp();
 					}
 
 				}
@@ -80,8 +61,31 @@ var uiHandlers = function() {
 			}, delay);
 		}
 
+		function reloadApp() {
+			for (var i = 0; i < views.length; i++) {
+				// Clean all
+				views[i].classList.remove("prev");
+				views[i].classList.remove("current");
+				views[i].classList.remove("next");
+				views[i].classList.remove("last");
+				views[i].querySelector(".overlay").removeAttribute("style");
+
+				// Set initial order
+				if (!i == 0) {
+					views[i].dataset.viewport = "end"
+				} else {
+					views[i].classList.add("current");
+				}
+				if ( i == 1 ) {
+					views[i].classList.add("next");
+				}
+			}
+			resetViews();
+			refreshNodes();
+		}
 
 		function refreshNodes() {
+			views = context.querySelectorAll(".view");
 			current = context.querySelector(".view.current");
 			if (current) {
 				overlayCurrent = current.querySelector(".overlay");
@@ -229,8 +233,7 @@ var uiHandlers = function() {
 					} else {
 						next.classList.add("current");
 						next.classList.add("last");
-						positionNext.innerHTML = "<"
-						positionNext.style.opacity = "0.8"
+						positionNext.style.opacity = "0"
 					}
 					next.dataset.viewport = "start";
 				} else if (next) {
@@ -244,8 +247,7 @@ var uiHandlers = function() {
 					// Check last again
 					current.classList.add("last");
 					positionCurrent.addEventListener("transitionend", function endTrans(){
-						positionCurrent.innerHTML = "<";
-						positionCurrent.style.opacity = "0.8";
+						positionCurrent.style.opacity = "0";
 						this.removeEventListener("transitionend", endTrans);
 					});
 				}
@@ -261,6 +263,9 @@ var uiHandlers = function() {
 		});
 		refreshNodes();
 		autoPlay();
+		reloadapp.addEventListener("click", function() {
+			reloadApp();
+		});
 	}
 
 	initSwipe();

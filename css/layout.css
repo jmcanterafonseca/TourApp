@@ -92,6 +92,8 @@ html {
 			padding-top: 1rem;
 			margin: 0;
 		}
+		.view .actions button { width: calc(50% - 1rem); }
+		.view .actions button:first-child { margin-right: 1rem; }
 
 		/*00-base and 00-end view*/
 		#tour-base.view { padding: 0; left: 0; right: 0; border: none; }
@@ -110,7 +112,6 @@ html {
 			.view.outside button { pointer-events: auto; }
 
 		/* Last view */
-		#tour-end.last .position {  left: 4.5rem; }
 		#tour-end.view.outside figure { margin: 11rem 0 0 1rem; }
 		#tour-end.view.outside h1 {  font-size: 5.5rem; font-weight: 300;  color: #fff; text-transform: uppercase; margin: 0; }
 		#tour-end.view.outside h2 { margin: 0 0 3.7rem; }
