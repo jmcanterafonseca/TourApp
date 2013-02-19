@@ -178,6 +178,10 @@ var uiHandlers = function() {
 				if ( coordinates.current  <= window.innerWidth / 1.5 && next ) {
 					if (prev) {
 						prev.classList.remove("prev");
+						current.addEventListener("transitionend", function endTrans(){
+							overlayCurrent.style.opacity = "0";
+							this.removeEventListener("transitionend",endTrans)
+						})
 					}
 					overlayNext.style.opacity = 0;
 					next.classList.remove("next");
