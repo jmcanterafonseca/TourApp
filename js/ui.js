@@ -144,7 +144,7 @@ var uiHandlers = function() {
 					overlayCurrent.style.background = "#000";
 					overlayCurrent.style.opacity = (1.3-amount/window.innerWidth < 1) ? 1.3-amount/window.innerWidth : 1 ;
 					overlayNext.style.opacity = (amount/window.innerWidth);
-					positionNext.style.transform = "translateX("+((window.innerWidth-amount-1)/10)+"px)";
+					positionNext.style.transform = "translateX("+((window.innerWidth-amount-1)/13)+"px)";
 					positionNext.style.opacity = ((amount/2)/window.innerWidth);
 				}
 
@@ -156,7 +156,7 @@ var uiHandlers = function() {
 					current.style.transform = "translateX("+amount+"px)";
 					overlayPrev.style.background = "rgba(255,255,255,0.2)";
 					overlayPrev.style.opacity = (1-amount/window.innerWidth);
-					positionCurrent.style.transform = "translateX("+((window.innerWidth-amount-1)/10)+"px)";
+					positionCurrent.style.transform = "translateX("+((window.innerWidth-amount-1)/13)+"px)";
 					positionCurrent.style.opacity = (amount/window.innerWidth);
 					if (next) {
 						next.classList.remove("next");
