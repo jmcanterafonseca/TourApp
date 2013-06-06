@@ -4,6 +4,7 @@
   "launch_path": "app.html",
   "fullscreen": "true",
   "icons": {
+    "320": "/gphx/icons/splash.png",
     "120": "/gphx/icons/app.png",
     "60": "/gphx/icons/app.png"
   },
