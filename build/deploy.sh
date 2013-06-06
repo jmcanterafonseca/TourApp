@@ -9,7 +9,8 @@
 cd ../
 echo "Deploying...."
 git checkout gh-pages
-git pull origin retail-shops
-git push origin gh-pages
+git fetch origin retail-shops
+git reset --hard FETCH_HEAD
+git push -f origin gh-pages
 git checkout retail-shops
 echo "Finished"
