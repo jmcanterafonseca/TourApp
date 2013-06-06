@@ -2,18 +2,20 @@
 
 var uiHandlers = function() {
 
+	var isTouch = ("ontouchstart" in window);
 
-	var initSwipe = function() {
+	Slider = function() {
 		var context = document.getElementById("canvas");
 		var closeapp = document.getElementById("closeapp");
 		var reloadapp = document.getElementById("reloadapp");
-		var current, overlayCurrent, positionCurrent, next, overlayNext, positionNext, prev, overlayPrev, positionPrev, last, positionLast;
+		var current, overlayCurrent, positionCurrent, next, overlayNext,
+			positionNext, prev, overlayPrev, positionPrev, last, positionLast;
 		var views = context.querySelectorAll(".view");
 
 		var repeat, queueRepeat;
-		var pressEvent =  ("ontouchstart" in window) ? "touchstart" : "mousedown";
-		var moveEvent = ("ontouchstart" in window) ? "touchmove" : "mousemove";
-		var releaseEvent = ("ontouchstart" in window) ? "touchend" :"mouseup";
+		var pressEvent =  isTouch  ? "touchstart" : "mousedown";
+		var moveEvent = isTouch ? "touchmove" : "mousemove";
+		var releaseEvent = isTouch ? "touchend" :"mouseup";
 		var coordinates = { init: 0, current: 0 }
 		var OFFSET = 25 * (window.innerWidth/320);
 		var delay = 8000;
@@ -51,7 +53,7 @@ var uiHandlers = function() {
 						}
 					} else {
 						// Last slide and reload app
-						reloadApp();
+						Slider.reloadApp();
 					}
 
 				}
@@ -61,7 +63,7 @@ var uiHandlers = function() {
 			}, delay);
 		}
 
-		function reloadApp() {
+		Slider.reloadApp = function() {
 			for (var i = 0; i < views.length; i++) {
 				// Clean all
 				views[i].classList.remove("prev");
@@ -261,17 +263,19 @@ var uiHandlers = function() {
 			coordinates.init = (e.touches) ? e.touches[0].pageX : e.clientX;
 			start();
 		});
+
 		refreshNodes();
 		autoPlay();
-		reloadapp.addEventListener("click", function() {
-			reloadApp();
-		});
 	}
 
-	initSwipe();
+	Slider();
 
 	closeapp.addEventListener("click", function() {
 		window.close();
+	});
+
+	reloadapp.addEventListener("click", function() {
+		Slider.reloadApp();
 	});
 
 
