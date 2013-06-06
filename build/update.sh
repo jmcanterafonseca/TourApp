@@ -1,9 +1,6 @@
 #!/bin/bash
 
 # -------------------------------------------------------
-# Pre-config:
-# git remote add -f gaia https://github.com/mozilla-b2g/gaia.git
-#
 # Usage:
 # cd build/
 # ./update.sh ( downloads latest versions of shared/style & shared/style_unstable Gaia folders )
@@ -12,7 +9,7 @@
 TMP_FETCH=.tmp_fetch
 
 # Fetch
-git fetch gaia master
+git remote add -f gaia https://github.com/mozilla-b2g/gaia.git master
 
 # Read desired dirs
 git read-tree --prefix=$TMP_FETCH/style/ -u gaia/master:shared/style
@@ -37,3 +34,6 @@ rm -rf $TMP_FETCH/
 
 git add -u shared/
 git commit -m "Updated latest shared/style folders"
+
+# Remove remote in order to avoid increase repo weight
+git remote rm gaia
