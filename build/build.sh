@@ -99,10 +99,10 @@ then
 fi
 
 # Move to build/ directory
-mv package.zip build/package.zip
+mv package.zip build/out/package.zip
 if [ "$1" == "$HIDPI" ];
 then
-	mv package@2x.zip build/package@2x.zip
+	mv package@2x.zip build/out/package@2x.zip
 fi
 
 # FInal feedback

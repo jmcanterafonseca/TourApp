@@ -8,12 +8,12 @@
 		<script>
 		// Turn it to false to always install 'normal' package
 		var supportHIDPI = true;
-		var isFFOS = ("mozApps" in navigator && navigator.userAgent.search("Mobile") != -1);
+		var isFFOS = ('mozApps' in navigator && navigator.userAgent.search('Mobile') != -1);
 
 		if ( isFFOS ) {
 
 			// This URL must be a full url.
-			var URL = 'http://192.168.1.100/mozilla/apps/tourapp/build/';
+			var URL = "http://basiclines.github.io/tourapp/build/out/";
 
 			if ( window.devicePixelRatio > 1.2 && supportHIDPI ) {
 				var manifestUrl = URL+'package@2x.manifest';
@@ -30,7 +30,7 @@
 			};
 
 		} else {
-			window.location.href = window.location.href+"app"
+			window.location.href = window.location.href+app
 		}
 
 		</script>
@@ -38,5 +38,3 @@
 
 	<body></body>
 </html>
-
-

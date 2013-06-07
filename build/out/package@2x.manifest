@@ -1,7 +1,7 @@
 {
   "name": "Tour",
   "description": "Walktrought main UI tips on FirefoxOS",
-  "package_path": "http://192.168.1.100/mozilla/apps/tourapp/build/package.zip",
+  "package_path": "http://basiclines.github.io/tourapp/build/out/package@2x.zip",
   "size": 472385,
   "version": "1.0",
   "release_notes": "",
@@ -15,4 +15,3 @@
     "url": "www.openwebdevice.com"
   }
 }
-
