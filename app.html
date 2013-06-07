@@ -5,10 +5,14 @@
 
 		<title>Tour</title>
 
+		<link rel="stylesheet" type="text/css" href="shared/style/responsive.css">
 		<link rel="stylesheet" type="text/css" href="css/layout.css">
+		<link rel="stylesheet" type="text/css" href="shared/style/confirm.css">
 		<link rel="stylesheet" type="text/css" href="shared/style/buttons.css">
-		<!-- <link rel="stylesheet" type="text/css" href="css/responsive.css"> -->
+		<link rel="stylesheet" type="text/css" href="shared/style_unstable/progress_activity.css">
 
+		<script type="text/javascript" src="js/slider.js"></script>
+		<script type="text/javascript" src="js/variant.js"></script>
 		<script type="text/javascript" src="js/ui.js"></script>
 		<script type="text/javascript" src="js/ready.js"></script>
 	</head>
@@ -38,7 +42,8 @@
 				<img src="gphx/slides/5.png">
 			</section>
 
-			<section id="slide-6" class="slide" role="region" data-viewport="end">
+			<section id="slide-6" class="slide video" role="region" data-viewport="end" style="background-image: url(gphx/slides/0.png)">
+				<a href="#" class="play">Play</a>
 				<video controls="controls">
 					<source type="video/ogg; codecs=&quot;theora, vorbis&quot;" src="gphx/slides/6.ogv"></source>
 				</video>
@@ -52,6 +57,26 @@
 			</section>
 		</div>
 
+		<section id="options" class="options">
+			<ul>
+				<li>
+					<button class="icon icon-dialog">Choose variant</button>
+					<select>
+						<option value="red">Red</option>
+						<option value="orange">Orange</option>
+						<option value="blue">Blue</option>
+					</select>
+				</li>
+			</ul>
+			<button id="cancel" class="danger">Use default variant</button>
+		</section>
+
+		<form id="loading" class="loading" role="dialog" data-type="confirm">
+			<section>
+				<h1>Generating slides</h1>
+				<p style="text-align: center;"><progress></progress></p>
+			</section>
+		</form>
 
 	</body>
 </html>
