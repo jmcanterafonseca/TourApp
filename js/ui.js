@@ -2,15 +2,14 @@
 
 var uiHandlers = function() {
 
-	var isTouch = ("ontouchstart" in window);
+	var isTouch = ("touchmove" in window);
+	var closeapp = document.getElementById("closeapp");
+	var reloadapp = document.getElementById("reloadapp");
 
 	Slider = function() {
 		var context = document.getElementById("canvas");
-		var closeapp = document.getElementById("closeapp");
-		var reloadapp = document.getElementById("reloadapp");
-		var current, overlayCurrent, positionCurrent, next, overlayNext,
-			positionNext, prev, overlayPrev, positionPrev, last, positionLast;
-		var views = context.querySelectorAll(".view");
+		var current, next, prev, last;
+		var slides = context.querySelectorAll(".slide");
 
 		var repeat, queueRepeat;
 		var pressEvent =  isTouch  ? "touchstart" : "mousedown";
@@ -18,119 +17,145 @@ var uiHandlers = function() {
 		var releaseEvent = isTouch ? "touchend" :"mouseup";
 		var coordinates = { init: 0, current: 0 }
 		var OFFSET = 25 * (window.innerWidth/320);
+		var BASE_OPACITY = 0.6;
 		var delay = 8000;
 
-		var autoPlay = function() {
+		// var autoPlay = function() {
 
-			context.classList.add("autoplay");
-			for (var i = 0; i < views.length; i++) {
-				views[i].querySelector(".overlay").removeAttribute("style");
-			}
+		// 	context.classList.add("autoplay");
 
-			function nextSlide() {
-				if (next) {
-					// anonymous becomes next
-					if (next.nextElementSibling) {
-						next.nextElementSibling.classList.add("next");
+		// 	function nextSlide() {
+		// 		if (next) {
+		// 			// anonymous becomes next
+		// 			if (next.nextElementSibling) {
+		// 				next.nextElementSibling.classList.add("next");
 
-						// Next becomes current
-						next.dataset.viewport = "start";
-						next.classList.remove("next");
-						next.classList.add("current");
-						next.addEventListener("transitionend", function endTrans() {
-							refreshNodes();
-							this.removeEventListener("transitionend", endTrans);
-						});
+		// 				// Next becomes current
+		// 				next.dataset.viewport = "start";
+		// 				next.classList.remove("next");
+		// 				next.classList.add("current");
+		// 				next.addEventListener("transitionend", function endTrans() {
+		// 					this.removeEventListener("transitionend", endTrans);
+		// 				});
 
-						// Current becomes prev
-						overlayCurrent.style.opacity = "1";
-						current.classList.remove("current");
-						current.classList.add("prev");
+		// 				// Current becomes prev
+		// 				current.classList.remove("current");
+		// 				current.classList.add("prev");
 
-						// Prev becomes anonymous
-						if (prev) {
-							prev.classList.remove("prev");
-						}
-					} else {
-						// Last slide and reload app
-						Slider.reloadApp();
-					}
+		// 				// Prev becomes anonymous
+		// 				if (prev) {
+		// 					prev.classList.remove("prev");
+		// 				}
+		// 			} else {
+		// 				// Last slide and reload app
+		// 				Slider.reloadApp();
+		// 			}
 
-				}
-			}
-			repeat = setInterval(function(){
-				nextSlide();
-			}, delay);
-		}
+		// 		}
+		// 	}
+		// 	repeat = setInterval(function(){
+		// 		nextSlide();
+		// 	}, delay);
+		// }
 
-		Slider.reloadApp = function() {
-			for (var i = 0; i < views.length; i++) {
-				// Clean all
-				views[i].classList.remove("prev");
-				views[i].classList.remove("current");
-				views[i].classList.remove("next");
-				views[i].classList.remove("last");
-				views[i].querySelector(".overlay").removeAttribute("style");
+		// Slider.reloadApp = function() {
+		// 	for (var i = 0; i < slides.length; i++) {
+		// 		// Clean all
+		// 		slides[i].classList.remove("prev");
+		// 		slides[i].classList.remove("current");
+		// 		slides[i].classList.remove("next");
+		// 		slides[i].classList.remove("last");
 
-				// Set initial order
-				if (!i == 0) {
-					views[i].dataset.viewport = "end"
-				} else {
-					views[i].classList.add("current");
-				}
-				if ( i == 1 ) {
-					views[i].classList.add("next");
-				}
-			}
-			resetViews();
-			refreshNodes();
-		}
-
-		function refreshNodes() {
-			views = context.querySelectorAll(".view");
-			current = context.querySelector(".view.current");
-			if (current) {
-				overlayCurrent = current.querySelector(".overlay");
-				positionCurrent = current.querySelector(".position");
-			}
-
-			next = current.nextElementSibling;
-			if (next) {
-				overlayNext = next.querySelector(".overlay");
-				positionNext = next.querySelector(".position");
-			}
-
-			prev = current.previousElementSibling;
-			if (prev) {
-				overlayPrev = prev.querySelector(".overlay");
-				positionPrev = prev.querySelector(".position");
-			}
-
-			last = context.querySelector(".last");
-			if (last) {
-				positionLast = last.querySelector(".position");
-			}
-		}
+		// 		// Set initial order
+		// 		if (!i == 0) {
+		// 			slides[i].dataset.viewport = "end"
+		// 		} else {
+		// 			slides[i].classList.add("current");
+		// 		}
+		// 		if ( i == 1 ) {
+		// 			slides[i].classList.add("next");
+		// 		}
+		// 	}
+		// 	resetSlides();
+		// }
 
 		// Reset to default state
-		function resetViews() {
+		// function resetSlides() {
+		// 	if (prev) {
+		// 		prev.classList.remove("notransition");
+		// 		prev.setAttribute("style", "");
+		// 	}
+		// 	if (next) {
+		// 		next.classList.remove("notransition");
+		// 		next.setAttribute("style", "");
+		// 	}
+		// 	current.classList.remove("notransition");
+		// 	current.setAttribute("style", "");
+		// 	if (last) {
+		// 		last.addEventListener("transitionend", function endTrans() {
+		// 			positionLast.innerHTML = ">";
+		// 			positionLast.removeAttribute("style");
+		// 			last.classList.remove("last");
+		// 			this.removeEventListener("transitionend", endTrans);
+		// 		});
+		// 	}
+		// }
+
+		// Move to next slide
+		function nextSlide() {
+			next.style.transform = "";
+			next.style.opacity = "";
+			next.dataset.viewport = "";
+			current.style.opacity = BASE_OPACITY;
+
+			// Convert ? in to next
+			if (next.nextElementSibling) {
+				next.nextElementSibling.classList.add("next");
+			}
+			// Convert next in to current
+			next.classList.remove("next")
+			next.classList.add("current")
+			// Convert current in to prev
+			current.classList.remove("current")
+			current.classList.add("prev")
+			// Remove prev
 			if (prev) {
-				prev.classList.remove("notransition");
-				prev.setAttribute("style", "");
+				prev.classList.remove("prev");
 			}
+		}
+
+		// Keep on the same slide
+		function keepSlide() {
+			// If there is no next, we are on last slide
 			if (next) {
-				next.classList.remove("notransition");
-				next.setAttribute("style", "");
+				next.style.transform = "";
+				next.style.opacity = "";
+			} else {
+				current.style.transform = "";
+				current.style.opacity = "";
 			}
-			current.classList.remove("notransition");
-			current.setAttribute("style", "");
-			if (last) {
-				last.addEventListener("transitionend", function endTrans() {
-					positionLast.innerHTML = ">";
-					positionLast.removeAttribute("style");
-					last.classList.remove("last");
-					this.removeEventListener("transitionend", endTrans);
-				});
+
+		}
+
+		function prevSlide() {
+			current.style.transform =""
+			current.dataset.viewport ="end";
+			prev.style.opacity = "1";
+
+			// Remove next
+			if (next) {
+				next.style.opacity = "";
+				next.classList.remove("next");
+			}
+			// Convert current in next
+			current.classList.remove("current");
+			current.classList.add("next");
+			// Convert prev in current
+			prev.classList.remove("prev");
+			prev.classList.add("current");
+
+			if (prev.previousElementSibling) {
+				prev.previousElementSibling.classList.add("prev");
 			}
 		}
 
@@ -142,12 +167,10 @@ var uiHandlers = function() {
 				coordinates.direction = "start";
 				if (next) {
 					var amount = window.innerWidth - OFFSET - (coordinates.init - coordinates.current);
+
 					next.style.transform = "translateX("+amount+"px)";
-					overlayCurrent.style.background = "#000";
-					overlayCurrent.style.opacity = (1.3-amount/window.innerWidth < 1) ? 1.3-amount/window.innerWidth : 1 ;
-					overlayNext.style.opacity = (amount/window.innerWidth);
-					positionNext.style.transform = "translateX("+((window.innerWidth-amount-1)/10)+"px)";
-					positionNext.style.opacity = ((amount/2)/window.innerWidth);
+					// Increase opacity from 0.6 to 1
+					next.style.opacity = (1 - (amount/2)/window.innerWidth);
 				}
 
 			} else {
@@ -156,23 +179,23 @@ var uiHandlers = function() {
 				if (prev) {
 					var amount =  coordinates.current - coordinates.init;
 					current.style.transform = "translateX("+amount+"px)";
-					overlayPrev.style.background = "rgba(255,255,255,0.2)";
-					overlayPrev.style.opacity = (1-amount/window.innerWidth);
-					positionCurrent.style.transform = "translateX("+((window.innerWidth-amount-1)/10)+"px)";
-					positionCurrent.style.opacity = (amount/window.innerWidth);
-					if (next) {
-						next.classList.remove("next");
-					}
+					// if (next) {
+					// 	next.classList.remove("next");
+					// }
 				}
 			}
-
 		}
 
 		function start() {
 			clearInterval(repeat);
 			clearTimeout(queueRepeat);
+
+			// Get actual prev, current and next slides
+			next = context.querySelector(".next");
+			current = context.querySelector(".current");
+			prev = context.querySelector(".prev");
+
 			context.classList.remove("autoplay");
-			refreshNodes();
 			if (current) {
 				current.classList.add("notransition");
 			}
@@ -185,87 +208,58 @@ var uiHandlers = function() {
 		}
 
 		function end() {
-			resetViews();
-			queueRepeat = setTimeout(function(){
-				refreshNodes();
-				autoPlay();
+
+			if (next) {
+				next.classList.remove("notransition")
+			}
+
+			if (current) {
+				current.classList.remove("notransition")
+			}
+
+			// resetSlides();
+			queueRepeat = setTimeout(function() {
+				// autoPlay();
 			}, delay);
 
-			// // Swipe to start to start or end
+			// // Swipe start to end |=>|
 			if ( coordinates.direction == "end" ) {
 				if ( coordinates.current  >= window.innerWidth / 3 && prev ) {
-					current.dataset.viewport = "end";
-					if (next) {
-						next.classList.remove("next");
-					}
-
-					overlayPrev.style.opacity = 0;
-					overlayCurrent.style.opacity = 1;
-					positionCurrent.style.opacity = 1;
-					positionCurrent.style.transform = "translateX(0px)";
-					current.classList.remove("current")
-					current.classList.add("next")
-					prev.classList.add("current");
-					prev.classList.remove("prev");
-					if (prev.previousElementSibling) {
-						prev.previousElementSibling.classList.add("prev");
-					}
+					console.log("=>")
+					prevSlide();
 				} else {
-					//Not moved
-					positionCurrent.style.opacity = 0;
+					//Don't move |=|
+					console.log("=")
+					// What current is next in the opposite direction
+					next = context.querySelector(".current");
+					keepSlide();
 				}
 			} else {
-				if ( coordinates.current  <= window.innerWidth / 1.5 && next ) {
-					if (prev) {
-						prev.classList.remove("prev");
-						current.addEventListener("transitionend", function endTrans(){
-							overlayCurrent.style.opacity = "0";
-							this.removeEventListener("transitionend",endTrans)
-						})
-					}
-					overlayNext.style.opacity = 0;
-					next.classList.remove("next");
-					current.classList.remove("current");
-					current.classList.add("prev");
-
-					// Check for last slide
-					if (next.nextElementSibling) {
-						next.classList.add("current");
-						next.nextElementSibling.classList.add("next");
-					} else {
-						next.classList.add("current");
-						next.classList.add("last");
-						positionNext.style.opacity = "0"
-					}
-					next.dataset.viewport = "start";
-				} else if (next) {
-					//Not moved
-					overlayCurrent.style.background = "rgba(255,255,255,0.2)";
-					overlayCurrent.style.opacity = 0;
-					positionNext.style.opacity = 1;
-					positionNext.style.transform = "translateX(0px)";
-					next.dataset.viewport = "end";
+				// Swipe end to start |<=|
+				if ( !(coordinates.current  <= window.innerWidth / 1.5 && next) ) {
+					//Don't move |=|
+					console.log("=")
+					keepSlide();
 				} else {
-					// Check last again
-					current.classList.add("last");
-					positionCurrent.addEventListener("transitionend", function endTrans(){
-						positionCurrent.style.opacity = "0";
-						this.removeEventListener("transitionend", endTrans);
-					});
+					//Next slide
+					console.log("<=")
+					nextSlide();
 				}
+
 			}
 
 			context.removeEventListener(moveEvent, move, false);
 			context.removeEventListener(releaseEvent, end, false);
 		}
-
 		context.addEventListener(pressEvent, function(e) {
-			coordinates.init = (e.touches) ? e.touches[0].pageX : e.clientX;
-			start();
+			// Avoid to slide if the video is touched
+			if (e.explicitOriginalTarget.tagName !== "VIDEO") {
+				coordinates.init = (e.touches) ? e.touches[0].pageX : e.clientX;
+				start();
+			}
 		});
 
-		refreshNodes();
-		autoPlay();
+		// autoPlay();
 	}
 
 	Slider();
@@ -277,6 +271,5 @@ var uiHandlers = function() {
 	reloadapp.addEventListener("click", function() {
 		Slider.reloadApp();
 	});
-
 
 }
