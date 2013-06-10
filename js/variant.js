@@ -17,10 +17,10 @@
 					'<img src="#url#">'+
 				  '</section>';
 
-		var tplVideo = '<section id="slide-#number#" class="slide #position# video" role="region" #viewport# style="background-image: url(gphx/slides/video.png)">'+
+		var tplVideo = '<section id="slide-#number#" class="slide #position# video" role="region" #viewport# style="background-image: url(http://basiclines.com/lab/tourapp/slides/video.png)">'+
 				'<a href="#" class="play">Play</a>'+
 				'<video controls="controls">'+
-					'<source type="video/ogg; codecs=&quot;theora, vorbis&quot;" src="gphx/slides/#number#.ogv"></source>'+
+					'<source type="video/ogg; codecs=&quot;theora, vorbis&quot;" src="#url#"></source>'+
 				'</video>'+
 			'</section>'
 

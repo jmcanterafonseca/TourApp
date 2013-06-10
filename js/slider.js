@@ -1,6 +1,10 @@
 
 Slider = function() {
-	var current, next, prev, last;
+
+	var last;
+	var next = dom.context.querySelector(".next");
+	var current = dom.context.querySelector(".current");
+	var prev = dom.context.querySelector(".prev");
 	var slides = dom.context.querySelectorAll(".slide");
 
 	var repeat, queueRepeat;
@@ -12,86 +16,33 @@ Slider = function() {
 	var BASE_OPACITY = 0.6;
 	var delay = 8000;
 
-	// var autoPlay = function() {
-
-	// 	context.classList.add("autoplay");
-
-	// 	function nextSlide() {
-	// 		if (next) {
-	// 			// anonymous becomes next
-	// 			if (next.nextElementSibling) {
-	// 				next.nextElementSibling.classList.add("next");
-
-	// 				// Next becomes current
-	// 				next.dataset.viewport = "start";
-	// 				next.classList.remove("next");
-	// 				next.classList.add("current");
-	// 				next.addEventListener("transitionend", function endTrans() {
-	// 					this.removeEventListener("transitionend", endTrans);
-	// 				});
-
-	// 				// Current becomes prev
-	// 				current.classList.remove("current");
-	// 				current.classList.add("prev");
-
-	// 				// Prev becomes anonymous
-	// 				if (prev) {
-	// 					prev.classList.remove("prev");
-	// 				}
-	// 			} else {
-	// 				// Last slide and reload app
-	// 				Slider.reloadApp();
-	// 			}
-
-	// 		}
-	// 	}
-	// 	repeat = setInterval(function(){
-	// 		nextSlide();
-	// 	}, delay);
-	// }
-
 	Slider.reloadApp = function() {
-		// for (var i = 0; i < slides.length; i++) {
-		// 	// Clean all
-		// 	slides[i].classList.remove("prev");
-		// 	slides[i].classList.remove("current");
-		// 	slides[i].classList.remove("next");
-		// 	slides[i].classList.remove("last");
+		for (var i = 0; i < slides.length; i++) {
+			// Clean all
+			slides[i].classList.remove("prev");
+			slides[i].classList.remove("current");
+			slides[i].classList.remove("next");
+			slides[i].classList.remove("last");
+			slides[i].style.opacity = "";
+			slides[i].style.transform = "";
 
-		// 	// Set initial order
-		// 	if (!i == 0) {
-		// 		slides[i].dataset.viewport = "end"
-		// 	} else {
-		// 		slides[i].classList.add("current");
-		// 	}
-		// 	if ( i == 1 ) {
-		// 		slides[i].classList.add("next");
-		// 	}
-		// }
-		// resetSlides();
+			// Set initial order
+			if (!i == 0) {
+				slides[i].dataset.viewport = "end"
+			} else {
+				slides[i].classList.add("current");
+			}
+			if ( i == 1 ) {
+				slides[i].classList.add("next");
+			}
+		}
 	}
 
-	// Reset to default state
-	// function resetSlides() {
-	// 	if (prev) {
-	// 		prev.classList.remove("notransition");
-	// 		prev.setAttribute("style", "");
-	// 	}
-	// 	if (next) {
-	// 		next.classList.remove("notransition");
-	// 		next.setAttribute("style", "");
-	// 	}
-	// 	current.classList.remove("notransition");
-	// 	current.setAttribute("style", "");
-	// 	if (last) {
-	// 		last.addEventListener("transitionend", function endTrans() {
-	// 			positionLast.innerHTML = ">";
-	// 			positionLast.removeAttribute("style");
-	// 			last.classList.remove("last");
-	// 			this.removeEventListener("transitionend", endTrans);
-	// 		});
-	// 	}
-	// }
+	function refreshNodes() {
+		next = dom.context.querySelector(".next");
+		current = dom.context.querySelector(".current");
+		prev = dom.context.querySelector(".prev");
+	}
 
 	// Move to next slide
 	function nextSlide() {
@@ -151,6 +102,19 @@ Slider = function() {
 		}
 	}
 
+	// Enters autoplaymode
+	function autoPlay() {
+		repeat = setInterval(function() {
+			dom.context.classList.add("autoplay");
+			refreshNodes();
+			if (next.nextElementSibling) {
+				nextSlide();
+			} else {
+				Slider.reloadApp();
+			}
+		}, delay);
+	};
+
 	function move(e) {
 		coordinates.current = (e.touches) ? e.touches[0].pageX : e.clientX;
 
@@ -180,12 +144,9 @@ Slider = function() {
 
 	function start() {
 		clearInterval(repeat);
-		clearTimeout(queueRepeat);
 
 		// Get actual prev, current and next slides
-		next = dom.context.querySelector(".next");
-		current = dom.context.querySelector(".current");
-		prev = dom.context.querySelector(".prev");
+		refreshNodes();
 
 		dom.context.classList.remove("autoplay");
 		if (current) {
@@ -210,9 +171,7 @@ Slider = function() {
 		}
 
 		// resetSlides();
-		queueRepeat = setTimeout(function() {
-			// autoPlay();
-		}, delay);
+		autoPlay();
 
 		// // Swipe start to end |=>|
 		if ( coordinates.direction == "end" ) {
@@ -253,5 +212,5 @@ Slider = function() {
 		}
 	});
 
-	// autoPlay();
+	autoPlay();
 }
