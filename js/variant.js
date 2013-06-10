@@ -10,81 +10,139 @@
 		return template;
 	}
 
-	// Dynamic generate slides
-	Variant.createSlides = function(img) {
-		console.log(img)
+	// G enerate dynamically  slides
+	Variant.createSlides = function(media, callback) {
 
 		var tpl = '<section id="slide-#number#" class="slide #position#" role="region" #viewport#>'+
 					'<img src="#url#">'+
 				  '</section>';
 
-		var htmlBuffer = "";
-		var pathsBuffer = [];
+		var tplVideo = '<section id="slide-#number#" class="slide #position# video" role="region" #viewport# style="background-image: url(gphx/slides/video.png)">'+
+				'<a href="#" class="play">Play</a>'+
+				'<video controls="controls">'+
+					'<source type="video/ogg; codecs=&quot;theora, vorbis&quot;" src="gphx/slides/#number#.ogv"></source>'+
+				'</video>'+
+			'</section>'
 
-		for (var i = 0; i < img.length; i++) {
+		var staticSlidesHTML = dom.context.innerHTML;
+		var htmlBuffer = "";
+
+		for (var i = 0; i < media.length; i++) {
 			var info = {
 				number: i+1,
 				position: "",
 				viewport: 'data-viewport="end"',
-				url: img[i]
+				url: media[i]
 			}
 
+			// Set first slide
 			if (info.number == 1) {
 				info.position = "current";
 				info.viewport = '';
 			}
 
+			// Set next one
 			if (info.number == 2) {
 				info.position = "next";
 			}
+			// Check for video
+			if (info.url.search(".ogv") !== -1) {
+				var slideHTML = Variant.parseTemplate(tplVideo, info);
+			} else {
+				var slideHTML = Variant.parseTemplate(tpl, info);
+			}
 
-			var slideHtml = Variant.parseTemplate(tpl, info);
-			htmlBuffer += slideHtml;
-			pathsBuffer.push(info.url);
+			htmlBuffer += slideHTML;
 		}
 
-		dom.context.innerHTML = htmlBuffer;
+		dom.context.innerHTML = htmlBuffer + staticSlidesHTML;
 
-		// Save data if was not saved before
-		if (!localStorage.getItem("images")) {
-			localStorage.setItem("images", pathsBuffer.join(","));
-		}
 
 		// Give some time b2g to paint th htmlBuffer
 		var delay = setTimeout(function(){
 			dom.loading.classList.add("hidden");
+			callback()
 		}, 50);
 	}
 
-	Variant.getSlidesImg = function(variant) {
-		// Save choice
-		localStorage.setItem("variant", variant);
+	Variant.getSlidesImg = function(callback) {
 
-		var url = "http://basiclines.com/lab/tourapp/variants/"+variant+"/";
+		var url = "http://basiclines.com/lab/tourapp/slides/";
 		var imageExt = ".png";
 		var videoExt = ".ogv";
 
 		var hasImages = true;
-		var slide = 1;
-		var images = [];
+		var slideImages = 1;
+		var slideVideos = 1;
+		var videoFetchEnd = false;
+		var paths = [];
 
-		function fetch() {
+		function fetchVideo() {
+			var video = document.createElement("video");
+			video.src = url+slideVideos+videoExt;
+			console.log("video url: " + url+slideVideos+videoExt)
+
+			var errorFallback = {};
+
+			video.onloadeddata = function() {
+				// Finished video loop, try to found more images
+				console.log("video")
+				clearTimeout(errorFallback)
+			 	paths.push(video.src);
+			 	videoFetchEnd = true;
+			 	slideImages++;
+			 	fetchImages();
+			}
+			// Don't search for videos name higher that images count
+			if ( slideVideos < slideImages + 1 ) {
+				errorFallback = setTimeout(function(){
+					console.log("video error fallback")
+					slideVideos++;
+				 	fetchVideo();
+				}, 600)
+				video.onerror = function() {
+					console.log("video onerror")
+					clearTimeout(errorFallback)
+				 	slideVideos++;
+				 	fetchVideo();
+				}
+			} else {
+				// Finished video loop, try to found more images
+				console.log("no video")
+				clearTimeout(errorFallback)
+				videoFetchEnd = true;
+			 	slideImages++;
+				fetchImages();
+			}
+		}
+
+		function fetchImages() {
 			var image = new Image();
-			image.src = url+slide+imageExt;
+			console.log( "fetch: " + url+slideImages+imageExt)
+			image.src = url+slideImages+imageExt;
 			image.onload = function() {
-			 	slide++;
-			 	images.push(image.src);
-			 	fetch();
+				console.log("loaded")
+			 	slideImages++;
+			 	paths.push(image.src);
+			 	fetchImages();
 			};
 			image.onerror = function() {
-				console.log("404 image")
-				// This means we've finalized fetching images
-				Variant.createSlides(images);
+				console.log("image error")
+				// If we've already fetched the video, create the slides
+				if (videoFetchEnd) {
+					console.log("createSlides")
+					Variant.createSlides(paths, callback);
+				} else {
+					console.log("fetch Video")
+					fetchVideo();
+				}
 			};
 		}
 
-		// Start the fetch loop
-		fetch();
+		// Start the fetchs loop
+		// When images are fetched, start fetching the video
+		fetchImages();
+
 	}
 
 })();
