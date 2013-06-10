@@ -8,6 +8,12 @@
     "120": "/gphx/icons/app.png",
     "60": "/gphx/icons/app.png"
   },
+  "permissions": {
+    "alarms":{}
+  },
+  "messages": [
+    { "alarm": "/index.html" }
+  ],
   "orientation": ["portrait"],
   "developer": {
     "name": "Ismael Gonzalez - @basiclines",
