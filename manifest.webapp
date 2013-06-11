@@ -12,7 +12,7 @@
     "alarms":{}
   },
   "messages": [
-    { "alarm": "/index.html" }
+    { "alarm": "/app.html" }
   ],
   "orientation": ["portrait"],
   "developer": {

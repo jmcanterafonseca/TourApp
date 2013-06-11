@@ -3,7 +3,7 @@ var TIMEOUT_APP = 1;                // In minutes
 
 var lock = window.navigator.requestWakeLock('screen');
 
-window.addEventListener('unload', function() {
+window.addEventListener('beforeunload', function() {
   if (lock) {
     lock.unlock();
   }
