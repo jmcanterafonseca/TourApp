@@ -7,7 +7,6 @@ Slider = function() {
 	var prev = dom.context.querySelector(".prev");
 	var slides = dom.context.querySelectorAll(".slide");
 
-	var repeat, queueRepeat;
 	var pressEvent =  isTouch  ? "touchstart" : "mousedown";
 	var moveEvent = isTouch ? "touchmove" : "mousemove";
 	var releaseEvent = isTouch ? "touchend" :"mouseup";
@@ -15,6 +14,12 @@ Slider = function() {
 	var OFFSET = 25 * (window.innerWidth/320);
 	var BASE_OPACITY = 0.6;
 	var delay = 8000;
+
+	// Trigger autoplay mode
+	Slider.autoPlay;
+
+	// Interval object
+	Slider.repeat;
 
 	Slider.reloadApp = function() {
 		for (var i = 0; i < slides.length; i++) {
@@ -102,13 +107,35 @@ Slider = function() {
 		}
 	}
 
+	// Play slidevideo when on autoplay mode
+	function playSlideVideo() {
+		clearInterval(Slider.repeat);
+		var video = next.querySelector("video");
+		var reference = next.querySelector(".play");
+		uiHandlers.playVideo(reference);
+
+		video.addEventListener("ended", function end(e) {
+			uiHandlers.finishVideo(reference);
+			refreshNodes();
+			if (!next.nextElementSibling) {
+				Slider.reloadApp();
+			}
+			video.removeEventListener("ended", end);
+		});
+	}
+
 	// Enters autoplaymode
-	function autoPlay() {
-		repeat = setInterval(function() {
+	Slider.autoPlay = function() {
+		clearInterval(Slider.repeat);
+		Slider.repeat = setInterval(function() {
 			dom.context.classList.add("autoplay");
 			refreshNodes();
 			if (next.nextElementSibling) {
 				nextSlide();
+				// If has a video then play it
+				if (next.classList.contains("video")) {
+					playSlideVideo();
+				}
 			} else {
 				Slider.reloadApp();
 			}
@@ -135,15 +162,12 @@ Slider = function() {
 			if (prev) {
 				var amount =  coordinates.current - coordinates.init;
 				current.style.transform = "translateX("+amount+"px)";
-				// if (next) {
-				// 	next.classList.remove("next");
-				// }
 			}
 		}
 	}
 
 	function start() {
-		clearInterval(repeat);
+		clearInterval(Slider.repeat);
 
 		// Get actual prev, current and next slides
 		refreshNodes();
@@ -171,7 +195,7 @@ Slider = function() {
 		}
 
 		// resetSlides();
-		autoPlay();
+		Slider.autoPlay();
 
 		// // Swipe start to end |=>|
 		if ( coordinates.direction == "end" ) {
@@ -205,12 +229,12 @@ Slider = function() {
 	dom.context.addEventListener(pressEvent, function(e) {
 		// Avoid to slide if the video is touched
 		var tag = e.explicitOriginalTarget.tagName;
-		var isAction = tag == "VIDEO" || tag == "A" || tag == "BUTTON";
+		var isAction = (tag == "VIDEO" || tag == "A" || tag == "BUTTON");
 		if (!isAction) {
 			coordinates.init = (e.touches) ? e.touches[0].pageX : e.clientX;
 			start();
 		}
 	});
 
-	autoPlay();
+	Slider.autoPlay();
 }
