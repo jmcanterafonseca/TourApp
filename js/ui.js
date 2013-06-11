@@ -9,7 +9,7 @@ var uiHandlers = function() {
 	dom.loading = document.getElementById("loading");
 
 	// Create slides, then set dom stuff
-	Variant.getSlidesImg(function() {
+	Variant.getSlidesMedia(function() {
 
 		dom.closeapp = document.getElementById("closeapp");
 		dom.reloadapp = document.getElementById("reloadapp");

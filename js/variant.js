@@ -1,5 +1,7 @@
 (function(){
 	Variant = {};
+	SERVER = "http://basiclines.com/lab/tourapp/slides/";
+
 	// Small template engine
 	Variant.parseTemplate = function(template, data) {
 		for ( var i in data ) {
@@ -10,14 +12,14 @@
 		return template;
 	}
 
-	// G enerate dynamically  slides
+	// Generate slides dynamically
 	Variant.createSlides = function(media, callback) {
 
 		var tpl = '<section id="slide-#number#" class="slide #position#" role="region" #viewport#>'+
 					'<img src="#url#">'+
 				  '</section>';
 
-		var tplVideo = '<section id="slide-#number#" class="slide #position# video" role="region" #viewport# style="background-image: url(http://basiclines.com/lab/tourapp/slides/video.png)">'+
+		var tplVideo = '<section id="slide-#number#" class="slide #position# video" role="region" #viewport# style="background-image: url('+SERVER+'video.png)">'+
 				'<a href="#" class="play">Play</a>'+
 				'<video controls="controls">'+
 					'<source type="video/ogg; codecs=&quot;theora, vorbis&quot;" src="#url#"></source>'+
@@ -32,7 +34,7 @@
 				number: i+1,
 				position: "",
 				viewport: 'data-viewport="end"',
-				url: media[i]
+				url: SERVER+media[i]
 			}
 
 			// Set first slide
@@ -65,84 +67,35 @@
 		}, 50);
 	}
 
-	Variant.getSlidesImg = function(callback) {
+	Variant.getSlidesMedia = function(callback) {
 
-		var url = "http://basiclines.com/lab/tourapp/slides/";
-		var imageExt = ".png";
-		var videoExt = ".ogv";
-
-		var hasImages = true;
-		var slideImages = 1;
-		var slideVideos = 1;
-		var videoFetchEnd = false;
-		var paths = [];
-
-		function fetchVideo() {
-			var video = document.createElement("video");
-			video.src = url+slideVideos+videoExt;
-			console.log("video url: " + url+slideVideos+videoExt)
-
-			var errorFallback = {};
-
-			video.onloadeddata = function() {
-				// Finished video loop, try to found more images
-				console.log("video")
-				clearTimeout(errorFallback)
-			 	paths.push(video.src);
-			 	videoFetchEnd = true;
-			 	slideImages++;
-			 	fetchImages();
-			}
-			// Don't search for videos name higher that images count
-			if ( slideVideos < slideImages + 1 ) {
-				errorFallback = setTimeout(function(){
-					console.log("video error fallback")
-					slideVideos++;
-				 	fetchVideo();
-				}, 600)
-				video.onerror = function() {
-					console.log("video onerror")
-					clearTimeout(errorFallback)
-				 	slideVideos++;
-				 	fetchVideo();
-				}
-			} else {
-				// Finished video loop, try to found more images
-				console.log("no video")
-				clearTimeout(errorFallback)
-				videoFetchEnd = true;
-			 	slideImages++;
-				fetchImages();
-			}
+		function success(data) {
+			var slides = JSON.parse(data);
+			Variant.createSlides(slides, callback)
 		}
 
-		function fetchImages() {
-			var image = new Image();
-			console.log( "fetch: " + url+slideImages+imageExt)
-			image.src = url+slideImages+imageExt;
-			image.onload = function() {
-				console.log("loaded")
-			 	slideImages++;
-			 	paths.push(image.src);
-			 	fetchImages();
-			};
-			image.onerror = function() {
-				console.log("image error")
-				// If we've already fetched the video, create the slides
-				if (videoFetchEnd) {
-					console.log("createSlides")
-					Variant.createSlides(paths, callback);
-				} else {
-					console.log("fetch Video")
-					fetchVideo();
-				}
-			};
+		function error(status) {
+			console.log("error")
+			console.log(status)
 		}
 
-		// Start the fetchs loop
-		// When images are fetched, start fetching the video
-		fetchImages();
+		// HTTP request
+		var xhr = new XMLHttpRequest();
+		xhr.overrideMimeType('application/json');
+		xhr.open('GET', SERVER+"slides.json", true);
 
-	}
+		xhr.onreadystatechange = function() {
+			// We will get a 0 status if the app is in app://
+			if (xhr.readyState === 4 && (xhr.status === 200 ||
+				xhr.status === 0)) {
+				success(xhr.responseText);
+			}
+			else if (xhr.readyState === 4) {
+				error(xhr.status)
+			}
+		}; // onreadystatechange
+
+		xhr.send(null);
+	};
 
 })();
