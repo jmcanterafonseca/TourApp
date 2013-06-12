@@ -15,9 +15,8 @@
 		uiHandlers.finishVideo = {};
 
 		function bindEvents() {
-			dom.closeapp = document.getElementById("closeapp");
-			dom.reloadapp = document.getElementById("reloadapp");
 			dom.play = document.querySelectorAll(".play");
+			dom.pause = document.querySelectorAll(".pause");
 
 			// Initialize slider
 			Slider();
@@ -25,22 +24,19 @@
 			uiHandlers.playVideo = function(trigger) {
 				clearInterval(Slider.repeat);
 				var video = trigger.parentNode.querySelector("video");
-				trigger.classList.add("bruteHidden")
-				video.classList.add("active");
+				trigger.parentNode.classList.add("active");
 				video.play();
 				video.addEventListener("ended", function end() {
 					uiHandlers.finishVideo(trigger);
 					video.removeEventListener("ended", end);
 				})
-				// TO DO: to be defined
 			}
 
 			uiHandlers.finishVideo = function(trigger) {
 				Slider.autoPlay();
 				var video = trigger.parentNode.querySelector("video");
-				video.classList.remove("active");
-				trigger.classList.remove("bruteHidden")
-				// TO DO: to be defined
+				video.pause();
+				trigger.parentNode.classList.remove("active");
 			}
 
 			// Play video
@@ -50,16 +46,12 @@
 				});
 			}
 
-			// Close app
-			dom.closeapp.addEventListener("click", function() {
-				console.log("close app")
-				window.close();
-			});
-
-			// Reload app
-			dom.reloadapp.addEventListener("click", function() {
-				Slider.reloadApp();
-			});
+			// Pause video
+			for (var i = 0; i < dom.pause.length; i++) {
+				dom.pause[i].addEventListener("click", function() {
+					uiHandlers.finishVideo(this);
+				});
+			}
 		}
 
 		// If we have connection use remote slides

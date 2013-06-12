@@ -50,7 +50,7 @@ Slider = function() {
 	}
 
 	// Move to next slide
-	function nextSlide() {
+	Slider.nextSlide = function() {
 		next.style.transform = "";
 		next.style.opacity = "";
 		next.dataset.viewport = "";
@@ -131,7 +131,7 @@ Slider = function() {
 			dom.context.classList.add("autoplay");
 			refreshNodes();
 			if (next.nextElementSibling) {
-				nextSlide();
+				Slider.nextSlide();
 				// If has a video then play it
 				if (next.classList.contains("video")) {
 					playSlideVideo();
@@ -218,7 +218,7 @@ Slider = function() {
 			} else {
 				//Next slide
 				console.log("<=")
-				nextSlide();
+				Slider.nextSlide();
 			}
 
 		}

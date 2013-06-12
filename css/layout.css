@@ -61,10 +61,25 @@ html {
 	left: 50%;
 	top: 50%;
 	margin: -6.9rem 0 0 -6.9rem;
-	pointer-events: auto;
 }
-.slide video { width: 100%; opacity: 0; pointer-events: none; }
-.slide video.active { pointer-events: auto; opacity: 1; }
+.slide.video.current .play { pointer-events: auto; }
+
+.slide.video .pause {
+	background: url(../gphx/ui/pause.png) no-repeat center / 3.3rem;
+	font-size: 0;
+	display: block;
+	width: 3.3rem;
+	height: 3.4rem;
+	position: absolute;
+	right: 1rem;
+	bottom: 1rem;
+	pointer-events: auto;
+	display: none;
+}
+.slide video { width: 100%; pointer-events: none; }
+.slide.active video { pointer-events: auto; }
+.slide.active .play { display: none; }
+.slide.active .pause { display: block; }
 
 /* Autoplay fixes */
 .autoplay .slide { transition: all 0.6s ease; }

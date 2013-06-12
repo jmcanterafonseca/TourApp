@@ -32,7 +32,7 @@
 
 		for (var i = 0; i < media.length; i++) {
 			var info = {
-				number: i+localSlidesAmount,
+				number: i+localSlidesAmount+1,
 				position: "",
 				viewport: 'data-viewport="end"',
 				url: SERVER+media[i]
