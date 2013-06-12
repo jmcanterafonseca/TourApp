@@ -27,6 +27,8 @@
 				trigger.parentNode.classList.add("active");
 				video.play();
 				video.addEventListener("ended", function end() {
+					Slider.refreshNodes();
+					Slider.nextSlide();
 					uiHandlers.finishVideo(trigger);
 					video.removeEventListener("ended", end);
 				})

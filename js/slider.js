@@ -13,7 +13,7 @@ Slider = function() {
 	var coordinates = { init: 0, current: 0 }
 	var OFFSET = 25 * (window.innerWidth/320);
 	var BASE_OPACITY = 0.6;
-	var delay = 8000;
+	var delay = 3000;
 
 	// Trigger autoplay mode
 	Slider.autoPlay;
@@ -43,7 +43,7 @@ Slider = function() {
 		}
 	}
 
-	function refreshNodes() {
+	Slider.refreshNodes = function() {
 		next = dom.context.querySelector(".next");
 		current = dom.context.querySelector(".current");
 		prev = dom.context.querySelector(".prev");
@@ -116,7 +116,7 @@ Slider = function() {
 
 		video.addEventListener("ended", function end(e) {
 			uiHandlers.finishVideo(reference);
-			refreshNodes();
+			Slider.refreshNodes();
 			if (!next.nextElementSibling) {
 				Slider.reloadApp();
 			}
@@ -129,7 +129,7 @@ Slider = function() {
 		clearInterval(Slider.repeat);
 		Slider.repeat = setInterval(function() {
 			dom.context.classList.add("autoplay");
-			refreshNodes();
+			Slider.refreshNodes();
 			if (next) {
 				Slider.nextSlide();
 				// If has a video then play it
@@ -170,7 +170,7 @@ Slider = function() {
 		clearInterval(Slider.repeat);
 
 		// Get actual prev, current and next slides
-		refreshNodes();
+		Slider.refreshNodes();
 
 		dom.context.classList.remove("autoplay");
 		if (current) {
