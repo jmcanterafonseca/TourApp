@@ -22,33 +22,29 @@
 		var tplVideo = '<section id="slide-#number#" class="slide #position# video" role="region" #viewport# style="background-image: url('+SERVER+'video.png)">'+
 				'<a href="#" class="play">Play</a>'+
 				'<video controls="controls">'+
-					'<source type="video/ogg; codecs=&quot;theora, vorbis&quot;" src="#url#"></source>'+
+					'<source type="#format#" src="#url#"></source>'+
 				'</video>'+
 			'</section>'
 
-		var staticSlidesHTML = dom.context.innerHTML;
+
 		var htmlBuffer = "";
+		var localSlidesAmount = dom.context.querySelectorAll(".slide").length
 
 		for (var i = 0; i < media.length; i++) {
 			var info = {
-				number: i+1,
+				number: i+localSlidesAmount,
 				position: "",
 				viewport: 'data-viewport="end"',
 				url: SERVER+media[i]
 			}
 
-			// Set first slide
-			if (info.number == 1) {
-				info.position = "current";
-				info.viewport = '';
-			}
-
-			// Set next one
-			if (info.number == 2) {
-				info.position = "next";
-			}
 			// Check for video
-			if (info.url.search(".ogv") !== -1) {
+			if (info.url.search(".ogv") !== -1 || info.url.search(".mp4") !== -1) {
+				if (info.url.search(".ogv") !== -1) {
+					info.format = "video/ogg";
+				} else if (info.url.search(".mp4") !== -1) {
+					info.format = "video/mp4";
+				}
 				var slideHTML = Variant.parseTemplate(tplVideo, info);
 			} else {
 				var slideHTML = Variant.parseTemplate(tpl, info);
@@ -57,7 +53,7 @@
 			htmlBuffer += slideHTML;
 		}
 
-		dom.context.innerHTML = htmlBuffer + staticSlidesHTML;
+		dom.remotes.outerHTML = htmlBuffer;
 
 
 		// Give some time b2g to paint th htmlBuffer

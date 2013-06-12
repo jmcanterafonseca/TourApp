@@ -7,15 +7,14 @@
 		isTouch = ("ontouchstart" in window && navigator.userAgent.search("Mobile") != -1);
 		dom = {};
 		dom.context = document.getElementById("canvas");
+		dom.remotes = document.getElementById("remotes");
 		dom.loading = document.getElementById("loading");
 
 		// Expose playVideo
 		uiHandlers.playVideo = {};
 		uiHandlers.finishVideo = {};
 
-		// Create slides, then set dom stuff
-		Variant.getSlidesMedia(function() {
-
+		function bindEvents() {
 			dom.closeapp = document.getElementById("closeapp");
 			dom.reloadapp = document.getElementById("reloadapp");
 			dom.play = document.querySelectorAll(".play");
@@ -61,8 +60,20 @@
 			dom.reloadapp.addEventListener("click", function() {
 				Slider.reloadApp();
 			});
+		}
 
-		});
+		// If we have connection use remote slides
+		if (navigator.onLine) {
+			// Create slides, then set dom stuff
+			Variant.getSlidesMedia(function() {
+				bindEvents();
+			});
+		} else {
+			dom.loading.classList.add("hidden");
+			dom.context.removeChild(dom.remotes)
+			bindEvents();
+		}
+
 	}
 })();
 
