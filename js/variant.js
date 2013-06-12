@@ -66,8 +66,13 @@
 	Variant.getSlidesMedia = function(callback) {
 
 		function success(data) {
-			var slides = JSON.parse(data);
-			Variant.createSlides(slides, callback)
+			if (!data == "") {
+				var slides = JSON.parse(data);
+				Variant.createSlides(slides, callback)
+			} else {
+				dom.loading.classList.add("hidden");
+				callback();
+			}
 		}
 
 		function error(status) {
