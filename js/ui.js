@@ -54,17 +54,10 @@
 			}
 		}
 
-		// If we have connection use remote slides
-		if (navigator.onLine) {
-			// Create slides, then set dom stuff
-			Variant.getSlidesMedia(function() {
-				bindEvents();
-			});
-		} else {
-			dom.loading.classList.add("hidden");
-			dom.context.removeChild(dom.remotes)
+		// Create slides, then set dom stuff
+		Variant.getSlidesMedia(function() {
 			bindEvents();
-		}
+		});
 
 	}
 })();

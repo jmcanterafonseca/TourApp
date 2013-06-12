@@ -130,7 +130,7 @@ Slider = function() {
 		Slider.repeat = setInterval(function() {
 			dom.context.classList.add("autoplay");
 			refreshNodes();
-			if (next.nextElementSibling) {
+			if (next) {
 				Slider.nextSlide();
 				// If has a video then play it
 				if (next.classList.contains("video")) {
