@@ -1,6 +1,6 @@
 (function(){
 	Variant = {};
-	SERVER = "http://telefonicaid.github.io/TourApp/variants/example/slides/";
+	SERVER = "http://basiclines.com/lab/tourapp/slides/";
 
 	// Small template engine
 	Variant.parseTemplate = function(template, data) {
