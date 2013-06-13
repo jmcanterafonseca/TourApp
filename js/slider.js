@@ -13,35 +13,13 @@ Slider = function() {
 	var coordinates = { init: 0, current: 0 }
 	var OFFSET = 25 * (window.innerWidth/320);
 	var BASE_OPACITY = 0.6;
-	var delay = 3000;
+	var delay = 8000;
 
 	// Trigger autoplay mode
 	Slider.autoPlay;
 
 	// Interval object
 	Slider.repeat;
-
-	Slider.reloadApp = function() {
-		for (var i = 0; i < slides.length; i++) {
-			// Clean all
-			slides[i].classList.remove("prev");
-			slides[i].classList.remove("current");
-			slides[i].classList.remove("next");
-			slides[i].classList.remove("last");
-			slides[i].style.opacity = "";
-			slides[i].style.transform = "";
-
-			// Set initial order
-			if (!i == 0) {
-				slides[i].dataset.viewport = "end"
-			} else {
-				slides[i].classList.add("current");
-			}
-			if ( i == 1 ) {
-				slides[i].classList.add("next");
-			}
-		}
-	}
 
 	Slider.refreshNodes = function() {
 		next = dom.context.querySelector(".next");
@@ -54,11 +32,17 @@ Slider = function() {
 		next.style.transform = "";
 		next.style.opacity = "";
 		next.dataset.viewport = "";
-		current.style.opacity = BASE_OPACITY;
+		current.style.opacity = "";
 
 		// Convert ? in to next
 		if (next.nextElementSibling) {
 			next.nextElementSibling.classList.add("next");
+			next.nextElementSibling.dataset.viewport = "end";
+		} else {
+			// If there is no next, use the first slide.
+			slides[0].classList.add("next");
+			slides[0].classList.add("notransition");
+			slides[0].dataset.viewport = "end";
 		}
 		// Convert next in to current
 		next.classList.remove("next")
@@ -104,6 +88,14 @@ Slider = function() {
 
 		if (prev.previousElementSibling) {
 			prev.previousElementSibling.classList.add("prev");
+			prev.previousElementSibling.dataset.viewport = "";
+			prev.classList.add("notransition");
+
+		} else {
+			// If there is no prev, use the last slide
+			var last = slides.length;
+			slides[last-1].classList.add("prev");
+			slides[last-1].dataset.viewport = "";
 		}
 	}
 
@@ -117,9 +109,6 @@ Slider = function() {
 		video.addEventListener("ended", function end(e) {
 			uiHandlers.finishVideo(reference);
 			Slider.refreshNodes();
-			if (!next.nextElementSibling) {
-				Slider.reloadApp();
-			}
 			video.removeEventListener("ended", end);
 		});
 	}
@@ -130,14 +119,10 @@ Slider = function() {
 		Slider.repeat = setInterval(function() {
 			dom.context.classList.add("autoplay");
 			Slider.refreshNodes();
-			if (next) {
-				Slider.nextSlide();
-				// If has a video then play it
-				if (next.classList.contains("video")) {
-					playSlideVideo();
-				}
-			} else {
-				Slider.reloadApp();
+			Slider.nextSlide();
+			// If has a video then play it
+			if (next.classList.contains("video")) {
+				playSlideVideo();
 			}
 		}, delay);
 	};
@@ -146,23 +131,19 @@ Slider = function() {
 		coordinates.current = (e.touches) ? e.touches[0].pageX : e.clientX;
 
 		if (coordinates.init - coordinates.current >= 0) {
-			// To start
+			// To start |<=|
 			coordinates.direction = "start";
-			if (next) {
-				var amount = window.innerWidth - OFFSET - (coordinates.init - coordinates.current);
-
-				next.style.transform = "translateX("+amount+"px)";
-				// Increase opacity from 0.6 to 1
-				next.style.opacity = (1 - (amount/2)/window.innerWidth);
-			}
+			var amount = window.innerWidth - OFFSET - (coordinates.init - coordinates.current);
+			next.style.transform = "translateX("+amount+"px)";
+			// Increase opacity from 0.6 to 1
+			next.style.opacity = (1 - (amount/2)/window.innerWidth);
 
 		} else {
-			// To end
+			// To end |=>|
 			coordinates.direction = "end";
-			if (prev) {
-				var amount =  coordinates.current - coordinates.init;
-				current.style.transform = "translateX("+amount+"px)";
-			}
+			var amount =  coordinates.current - coordinates.init;
+			current.style.transform = "translateX("+amount+"px)";
+			current.style.opacity = (1 - (amount/2)/window.innerWidth);
 		}
 	}
 
@@ -173,6 +154,9 @@ Slider = function() {
 		Slider.refreshNodes();
 
 		dom.context.classList.remove("autoplay");
+		if (prev) {
+			prev.classList.add("notransition");
+		}
 		if (current) {
 			current.classList.add("notransition");
 		}

@@ -28,7 +28,8 @@
 
 
 		var htmlBuffer = "";
-		var localSlidesAmount = dom.context.querySelectorAll(".slide").length
+		var localSlides = dom.context.querySelectorAll(".slide");
+		var localSlidesAmount = localSlides.length
 
 		for (var i = 0; i < media.length; i++) {
 			var info = {
@@ -36,6 +37,14 @@
 				position: "",
 				viewport: 'data-viewport="end"',
 				url: SERVER+media[i]
+			}
+
+			// Remove local last slide and user remote as last
+			if (i == media.length-1) {
+				info.position = "prev";
+				info.viewport= "";
+				localSlides[localSlidesAmount-1].classList.remove("prev");
+				localSlides[localSlidesAmount-1].dataset.viewport = "end";
 			}
 
 			// Check for video
@@ -52,7 +61,6 @@
 
 			htmlBuffer += slideHTML;
 		}
-
 		dom.remotes.outerHTML = htmlBuffer;
 
 
