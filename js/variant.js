@@ -19,7 +19,7 @@
 					'<img src="#url#">'+
 				  '</section>';
 
-		var tplVideo = '<section id="slide-#number#" class="slide #position# video" role="region" #viewport# style="background-image: url('+SERVER+'video.png)">'+
+		var tplVideo = '<section id="slide-#number#" class="slide #position# video" role="region" #viewport#>'+
 				'<a href="#" class="play">Play</a>'+
 				'<video controls="controls">'+
 					'<source type="#format#" src="#url#"></source>'+
@@ -68,7 +68,33 @@
 		function success(data) {
 			if (!data == "") {
 				var slides = JSON.parse(data);
-				Variant.createSlides(slides, callback)
+				var counter = slides.length;
+
+				// Preload defined images before create the templates
+				var fetchMedia = (function fetchNext() {
+					if (counter !== 0) {
+						var img = new Image();
+						img.src = SERVER+slides[counter-1]
+						img.onload = function() {
+							// Fetch done, fetch the next one
+							counter--;
+							fetchNext();
+						}
+						img.onerror = function() {
+							// If we dont find the image specified, then remove it
+							var i = slides.indexOf(slides[counter-1]);
+							if(i != -1) {
+								slides.splice(i, 1);
+							}
+							counter--;
+							fetchNext();
+						};
+					} else {
+						// All resources loaded
+						Variant.createSlides(slides, callback)
+					}
+				})();
+
 			} else {
 				dom.loading.classList.add("hidden");
 				callback();
