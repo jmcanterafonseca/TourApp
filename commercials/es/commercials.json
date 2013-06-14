@@ -1,4 +1,6 @@
-[
-  'imgs/img1.png',
-  'imgs/img2.png'
-]
+{
+  "data": [
+            'imgs/img1.png',
+            'imgs/img2.png'
+          ]
+}
