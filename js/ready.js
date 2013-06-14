@@ -15,6 +15,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	// Initialize UI handlers
 	uiHandlers();
 
+  commercials.start(function() {
+    window.console.log('Commercials loaded!!!!');
+  });
+
 });
 
 
