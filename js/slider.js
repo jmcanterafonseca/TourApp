@@ -31,18 +31,14 @@ Slider = function() {
 	Slider.nextSlide = function() {
 		next.style.transform = "";
 		next.style.opacity = "";
-		next.dataset.viewport = "";
 		current.style.opacity = "";
 
 		// Convert ? in to next
 		if (next.nextElementSibling) {
 			next.nextElementSibling.classList.add("next");
-			next.nextElementSibling.dataset.viewport = "end";
 		} else {
 			// If there is no next, use the first slide.
 			slides[0].classList.add("next");
-			slides[0].classList.add("notransition");
-			slides[0].dataset.viewport = "end";
 		}
 		// Convert next in to current
 		next.classList.remove("next")
@@ -71,7 +67,6 @@ Slider = function() {
 
 	function prevSlide() {
 		current.style.transform =""
-		current.dataset.viewport ="end";
 		prev.style.opacity = "1";
 
 		// Remove next
@@ -88,14 +83,11 @@ Slider = function() {
 
 		if (prev.previousElementSibling) {
 			prev.previousElementSibling.classList.add("prev");
-			prev.previousElementSibling.dataset.viewport = "";
-			prev.classList.add("notransition");
 
 		} else {
 			// If there is no prev, use the last slide
 			var last = slides.length;
 			slides[last-1].classList.add("prev");
-			slides[last-1].dataset.viewport = "";
 		}
 	}
 
@@ -119,6 +111,11 @@ Slider = function() {
 		Slider.repeat = setInterval(function() {
 			dom.context.classList.add("autoplay");
 			Slider.refreshNodes();
+			next.classList.add("transition");
+			next.addEventListener("transitionend", function end() {
+				this.classList.remove("transition");
+				next.removeEventListener("transitionend", end);
+			});
 			Slider.nextSlide();
 			// If has a video then play it
 			if (next.classList.contains("video")) {
@@ -155,13 +152,13 @@ Slider = function() {
 
 		dom.context.classList.remove("autoplay");
 		if (prev) {
-			prev.classList.add("notransition");
+			prev.classList.remove("transition");
 		}
 		if (current) {
-			current.classList.add("notransition");
+			current.classList.remove("transition");
 		}
 		if (next) {
-			next.classList.add("notransition");
+			next.classList.remove("transition");
 		}
 
 		dom.context.addEventListener(moveEvent, move);
@@ -170,19 +167,15 @@ Slider = function() {
 
 	function end() {
 
-		if (next) {
-			next.classList.remove("notransition")
-		}
-
-		if (current) {
-			current.classList.remove("notransition")
-		}
-
 		// resetSlides();
 		Slider.autoPlay();
 
 		// // Swipe start to end |=>|
 		if ( coordinates.direction == "end" ) {
+			if (current) {
+				current.classList.add("transition")
+			}
+
 			if ( coordinates.current  >= window.innerWidth / 3 && prev ) {
 				console.log("=>")
 				prevSlide();
@@ -195,6 +188,10 @@ Slider = function() {
 			}
 		} else {
 			// Swipe end to start |<=|
+			if (next) {
+				next.classList.add("transition")
+			}
+
 			if ( !(coordinates.current  <= window.innerWidth / 1.5 && next) ) {
 				//Don't move |=|
 				console.log("=")

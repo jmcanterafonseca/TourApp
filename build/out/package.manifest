@@ -3,7 +3,7 @@
   "description": "Walktrought main UI tips on FirefoxOS",
   "package_path": "http://telefonicaid.github.io/TourApp/build/out/package.zip",
   "size": 472385,
-  "version": "1.3",
+  "version": "1.4",
   "release_notes": "",
   "icons": {
     "320": "/gphx/icons/splash.png",

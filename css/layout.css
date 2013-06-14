@@ -30,21 +30,17 @@ html {
 		height: 100%;
 		overflow: hidden;
 		transform: translate(0);
-		transition: all 0.3s ease;
 		-moz-user-select: none;
 		pointer-events: none;
 		opacity: 0;
 		background: url(../gphx/ui/background.png) repeat left top / 50px;
 	}
-	.notransition { transition: none!important; }
-	.slide.next { z-index: 5; opacity: 0.6; }
+	.transition { transition: all 0.3s ease; }
+	.slide.next { z-index: 5; opacity: 0.6; transform: translateX(100%); }
 	.slide.current { z-index: 3; }
 	.slide.prev { z-index: 1; }
 	.slide.current,
 	.slide.prev { opacity: 1; }
-
-	[data-viewport="start"] { transform: translateX(-100%); }
-	[data-viewport="end"] { transform: translateX(100%); }
 
 
 	.reload { position: absolute; left: 1rem; bottom: 1rem; z-index: 5; }
@@ -81,9 +77,6 @@ html {
 .slide.active video { pointer-events: auto; }
 .slide.active .play { display: none; }
 .slide.active .pause { display: block; }
-
-/* Autoplay fixes */
-.autoplay .slide { transition: all 0.6s ease; }
 
 /* Final actions */
 .slide .actions { pointer-events: none; }
