@@ -1,5 +1,6 @@
+'use strict';
+
 var NEXT_ALARM_KEY = 'next_alarm';
-var TIMEOUT_APP = 1;                // In minutes
 
 var lock = window.navigator.requestWakeLock('screen');
 
@@ -15,18 +16,45 @@ document.addEventListener('DOMContentLoaded', function() {
 	// Initialize UI handlers
 	uiHandlers();
 
+  commercials.init(function() {
+    window.console.log('loaded', commercials.start);
+
+    // Initialize UI handlers
+    // uiHandlers();
+
+    commercials.get(function(commercialImgs) {
+      Object.keys(commercialImgs).forEach(function(imgSrc) {
+        window.console.log(imgSrc, window.URL.createObjectURL(commercialImgs[imgSrc]));
+      });
+      window.console.log('Commercials loaded!!!!');
+    });
+  });
+
 });
 
 
-navigator.mozSetMessageHandler('alarm', function() {
-  window.console.log('Alarm message arrived!!!');
+navigator.mozSetMessageHandler('alarm', function(alarm) {
+  window.console.log('Alarm message arrived!!!', JSON.stringify(alarm));
 
-  window.asyncStorage.removeItem(NEXT_ALARM_KEY, function onremove() {
-      navigator.mozApps.getSelf().onsuccess = function getSelfCB(evt) {
-      var app = evt.target.result;
-      app.launch('tourapp');
-    };
-  });
+  if(alarm.data.tourAppRestart === true) {
+    window.asyncStorage.removeItem(NEXT_ALARM_KEY, function onremove() {
+        navigator.mozApps.getSelf().onsuccess = function getSelfCB(evt) {
+        var app = evt.target.result;
+        app.launch('tourapp');
+      };
+    });
+  }
+  else if(alarm.data.imageSync === true) {
+    window.console.log('Going to update commercial offer images');
+
+    commercials.updateImgs(function(changes) {
+      if(typeof changes === 'object') {
+        if(typeof commercials.onimgsupdated === 'function') {
+          window.setTimeout(commercials.onimgsupdated, 0);
+        }
+      }
+    }, null, false);
+  }
 });
 
 
@@ -44,11 +72,15 @@ document.addEventListener('mozvisibilitychange', function vis_changed(e) {
     else {
       if (document.mozHidden === true) {
         window.console.log('Moz hidden !!!');
+        return;
 
-        var at = Date.now() + (TIMEOUT_APP * 60 * 1000);
+        var at = Date.now() + (window.configuration.restartAppPeriod
+                               * 60 * 1000);
         var scheduledDate = new Date(at);
 
-        var req = navigator.mozAlarms.add(scheduledDate, 'honorTimezone', {});
+        var req = navigator.mozAlarms.add(scheduledDate, 'honorTimezone', {
+          tourAppRestart: true
+        });
 
         window.console.log('Alarm scheduled!!!');
 
