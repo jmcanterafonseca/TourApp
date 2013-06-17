@@ -1,0 +1,9 @@
+{
+  "host": "http://jmcanterafonseca.github.io/TourApp",
+  "commercialsPath": "commercials",
+  "variant": "es",
+  "restartAppPeriod": 5,
+  "checkNewImgsPeriod": 24,
+  "retryPeriodIfOffline": 10,
+  "defaultTimeout": 20000
+}
