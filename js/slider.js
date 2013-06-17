@@ -83,7 +83,6 @@ Slider = function() {
 
 		if (prev.previousElementSibling) {
 			prev.previousElementSibling.classList.add("prev");
-
 		} else {
 			// If there is no prev, use the last slide
 			var last = slides.length;
@@ -96,6 +95,10 @@ Slider = function() {
 		clearInterval(Slider.repeat);
 		var video = next.querySelector("video");
 		var reference = next.querySelector(".play");
+		/*
+		  We should set the video at begining but:
+		  video.currentTime = 0; is not working
+		 */
 		uiHandlers.playVideo(reference);
 
 		video.addEventListener("ended", function end(e) {

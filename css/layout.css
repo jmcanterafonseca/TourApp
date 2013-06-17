@@ -35,7 +35,7 @@ html {
 		opacity: 0;
 		background: url(../gphx/ui/background.png) repeat left top / 50px;
 	}
-	.transition { transition: all 0.3s ease; }
+	.transition { transition: all 0.4s ease; }
 	.slide.next { z-index: 5; opacity: 0.6; transform: translateX(100%); }
 	.slide.current { z-index: 3; }
 	.slide.prev { z-index: 1; }
@@ -73,6 +73,12 @@ html {
 	pointer-events: auto;
 	display: none;
 }
+
+.slide.video .play,
+.slide.video .pause {
+	outline: none;
+}
+
 .slide video { width: 100%; pointer-events: none; }
 .slide.active video { pointer-events: auto; }
 .slide.active .play { display: none; }
