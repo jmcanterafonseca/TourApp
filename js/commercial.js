@@ -251,9 +251,9 @@ var commercials = (function() {
     else {
       if (force === false) {
         window.console.log('Device is not online, scheduling another alarm');
-        cb(false);
         scheduleAlarm(window.configuration.retryPeriodIfOffline / 60);
       }
+      cb(false);
     }
   }
 
