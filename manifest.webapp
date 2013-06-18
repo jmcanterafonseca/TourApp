@@ -2,7 +2,6 @@
   "name": "Tour",
   "description": "Walktrought main UI tips on FirefoxOS",
   "launch_path": "app.html",
-  "type": "certified",
   "fullscreen": "true",
   "icons": {
     "320": "/gphx/icons/splash.png",

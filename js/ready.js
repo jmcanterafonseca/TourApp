@@ -16,20 +16,6 @@ document.addEventListener('DOMContentLoaded', function() {
 	// Initialize UI handlers
 	uiHandlers();
 
-  commercials.init(function() {
-    window.console.log('loaded', commercials.start);
-
-    // Initialize UI handlers
-    // uiHandlers();
-
-    commercials.get(function(commercialImgs) {
-      Object.keys(commercialImgs).forEach(function(imgSrc) {
-        window.console.log(imgSrc, window.URL.createObjectURL(commercialImgs[imgSrc]));
-      });
-      window.console.log('Commercials loaded!!!!');
-    });
-  });
-
 });
 
 

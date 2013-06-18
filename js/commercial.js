@@ -7,7 +7,7 @@ var commercials = (function() {
 
   var ALARM_KEY = 'imgSyncAlarmId';
 
-  var IMGS_DESCRIPTOR = 'commercials4.json';
+  var IMGS_DESCRIPTOR = 'slides.json';
   var DEFAULT_TIMEOUT = 20000;
 
   var target;
@@ -75,7 +75,7 @@ var commercials = (function() {
       window.configuration = config;
 
       target = config.host + '/' + config.commercialsPath + '/' +
-                        config.variant + '/';
+                        config.variant + '/slides/';
       timeout = config.defaultTimeout || DEFAULT_TIMEOUT;
 
       if (typeof cb === 'function') {
@@ -226,10 +226,9 @@ var commercials = (function() {
               // The new imgs are stored in a different key, waiting to
               // switch them when necessary
               var key = force ? OFFER_IMGS_KEY : OFFER_UPDATED_IMGS_KEY;
-              var data = force ? imgData : true;
 
               window.asyncStorage.setItem(key, imgData, function() {
-                cb(data);
+                cb(imgData);
               });
             });
           }
@@ -251,9 +250,9 @@ var commercials = (function() {
     else {
       if (force === false) {
         window.console.log('Device is not online, scheduling another alarm');
-        cb(false);
         scheduleAlarm(window.configuration.retryPeriodIfOffline / 60);
       }
+      cb(false);
     }
   }
 

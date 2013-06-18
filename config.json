@@ -1,7 +1,7 @@
 {
-  "host": "http://jmcanterafonseca.github.io/TourApp",
-  "commercialsPath": "commercials",
-  "variant": "es",
+  "host": "http://www.basiclines.com/lab/tourapp",
+  "commercialsPath": "variants",
+  "variant": "example",
   "restartAppPeriod": 5,
   "checkNewImgsPeriod": 24,
   "retryPeriodIfOffline": 10,

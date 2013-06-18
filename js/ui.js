@@ -15,6 +15,7 @@
 		uiHandlers.finishVideo = {};
 
 		function bindEvents() {
+			dom.loading.classList.add("hidden");
 			dom.play = document.querySelectorAll(".play");
 			dom.pause = document.querySelectorAll(".pause");
 
@@ -56,10 +57,33 @@
 			}
 		}
 
-		// Create slides, then set dom stuff
-		Variant.getSlidesMedia(function() {
-			bindEvents();
-		});
+		function createSlides(media) {
+	  	  	var slides = [];
+			if (media) {
+			      Object.keys(media).forEach(function(imgSrc) {
+			      	slides.push(window.URL.createObjectURL(media[imgSrc]));
+			      });
+			      window.console.log('Commercials loaded!!!!');
+		    	}
+
+		      // Create slides, then set dom stuff
+			Variant.createSlides(slides, function() {
+				bindEvents();
+			});
+		}
+
+		commercials.init(function() {
+		    window.console.log('loaded', commercials.start);
+		    commercials.get(function(commercialImgs) {
+		    	createSlides(commercialImgs);
+		    });
+		  });
+
+		commercials.onimgsupdated = function() {
+			commercials.getNew(function(commercialImgs) {
+				createSlides(commercialImgs);
+			});
+		}
 
 	}
 })();

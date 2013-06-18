@@ -8,7 +8,7 @@
 # -------------------------------------------------------
 
 # Constants
-APP_FILES="css gphx js shared app.html manifest.webapp"
+APP_FILES="css gphx js shared app.html manifest.webapp config.json"
 HIDPI="HIDPI"
 TMP_PATHS="tmp_paths.txt"
 TMP_HIDPI_DIR="tmp_hidpi/"
