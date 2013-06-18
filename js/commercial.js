@@ -226,10 +226,9 @@ var commercials = (function() {
               // The new imgs are stored in a different key, waiting to
               // switch them when necessary
               var key = force ? OFFER_IMGS_KEY : OFFER_UPDATED_IMGS_KEY;
-              var data = force ? imgData : true;
 
               window.asyncStorage.setItem(key, imgData, function() {
-                cb(data);
+                cb(imgData);
               });
             });
           }
