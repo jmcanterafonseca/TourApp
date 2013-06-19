@@ -15,7 +15,7 @@ var commercials = (function() {
   var configuration;
 
   function loadDescriptor(cb, errorCb) {
-    var configSrc = target + '/' + IMGS_DESCRIPTOR;
+    var configSrc = target + IMGS_DESCRIPTOR;
 
     window.console.log('Going to load JSON config: ', configSrc);
 

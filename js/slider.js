@@ -13,7 +13,7 @@ Slider = function() {
 	var coordinates = { init: 0, current: 0 }
 	var OFFSET = 25 * (window.innerWidth/320);
 	var BASE_OPACITY = 0.6;
-	var delay = 8000;
+	var delay = configuration.slidesAutoplay;
 
 	// Trigger autoplay mode
 	Slider.autoPlay;

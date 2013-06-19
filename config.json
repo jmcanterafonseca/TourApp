@@ -1,9 +1,10 @@
 {
-  "host": "http://www.basiclines.com/lab/tourapp",
+  "host": "http://retail-owd.tefdigital.com",
   "commercialsPath": "variants",
   "variant": "example",
   "restartAppPeriod": 5,
   "checkNewImgsPeriod": 24,
   "retryPeriodIfOffline": 10,
-  "defaultTimeout": 20000
+  "defaultTimeout": 20000,
+  "slidesAutoplay": 8000
 }
