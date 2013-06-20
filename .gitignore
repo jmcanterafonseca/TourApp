@@ -1,6 +1,7 @@
-
-gphx/.DS_Store
-
-gphx/views/.DS_Store
-
 .DS_Store
+*/.DS_Store
+
+build/
+variants/
+index.html
+config.json
