@@ -1,7 +1,7 @@
 .DS_Store
 */.DS_Store
 
-build/
-variants/
-index.html
-config.json
+basePack/build/
+basePack/variants/
+basePack/index.html
+basePack/config.json

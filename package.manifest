@@ -1,0 +1,17 @@
+{
+  "name": "Tour",
+  "description": "Walktrought main UI tips on FirefoxOS",
+  "package_path": "http://retail-owd.tefdigital.com/downloads/${VARIANT}/build/package.zip",
+  "size": ${ZIPSIZE},
+  "version": "1.5",
+  "release_notes": "",
+  "icons": {
+    "320": "/gphx/icons/splash.png",
+    "120": "/gphx/icons/app.png",
+    "60": "/gphx/icons/app.png"
+    },
+  "developer": {
+    "name": "Ismael Gonzalez - @basiclines",
+    "url": "www.openwebdevice.com"
+  }
+}
