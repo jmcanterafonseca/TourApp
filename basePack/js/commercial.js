@@ -212,32 +212,37 @@ var commercials = (function() {
 
     if (navigator.onLine === true) {
       loadDescriptor(function(descriptor) {
-        window.asyncStorage.getItem(CURRENT_VERSION_KEY, function(data) {
-          window.console.log('Device Version: ', data);
-          window.console.log('Remote Version: ', descriptor.version);
+        // We are online but it could be server issues
+        if (descriptor) {
+          window.asyncStorage.getItem(CURRENT_VERSION_KEY, function(data) {
+            window.console.log('Device Version: ', data);
+            window.console.log('Remote Version: ', descriptor.version);
 
-          if (descriptor.version !== data) {
-            window.console.log('Imgs version changed!!');
+            if (descriptor.version !== data) {
+              window.console.log('Imgs version changed!!');
 
-            getRemoteImgs(descriptor, null, function(imgData) {
-              // Updating current version to the new one
-              window.asyncStorage.setItem(CURRENT_VERSION_KEY,
-                                          descriptor.version);
-              // The new imgs are stored in a different key, waiting to
-              // switch them when necessary
-              var key = force ? OFFER_IMGS_KEY : OFFER_UPDATED_IMGS_KEY;
+              getRemoteImgs(descriptor, null, function(imgData) {
+                // Updating current version to the new one
+                window.asyncStorage.setItem(CURRENT_VERSION_KEY,
+                                            descriptor.version);
+                // The new imgs are stored in a different key, waiting to
+                // switch them when necessary
+                var key = force ? OFFER_IMGS_KEY : OFFER_UPDATED_IMGS_KEY;
 
-              window.asyncStorage.setItem(key, imgData, function() {
-                cb(imgData);
+                window.asyncStorage.setItem(key, imgData, function() {
+                  cb(imgData);
+                });
               });
-            });
-          }
-          else {
-            window.console.log('Imgs version has not changed');
-            // No changes
-            cb(false);
-          }
-        });  // window.asyncStorage
+            }
+            else {
+              window.console.log('Imgs version has not changed');
+              // No changes
+              cb(false);
+            }
+          });  // window.asyncStorage
+        } else {
+          cb(null)
+        }
       }, function() {
         window.console.error('Error while retrieving descriptor file');
         if (typeof errorCb === 'function') {

@@ -28,14 +28,13 @@ if (typeof utils.config === 'undefined') {
           window.setTimeout(function do_load() {
             var xhr = new XMLHttpRequest({mozSystem: true});
             xhr.open('GET', resource, true);
-            xhr.responseType = 'json';
 
             xhr.onreadystatechange = function() {
               // We will get a 0 status if the app is in app://
               if (xhr.readyState === 4 && (xhr.status === 200 ||
                                            xhr.status === 0)) {
 
-                var configuration = xhr.response; /* JSON.parse(response); */
+                var configuration = JSON.parse(xhr.responseText);
                 loaded[resource] = configuration;
                 delete loading[resource];
                 // Notifying all pending requests

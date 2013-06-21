@@ -3,7 +3,7 @@
   "description": "Walktrought main UI tips on FirefoxOS",
   "package_path": "http://retail-owd.tefdigital.com/downloads/${VARIANT}/build/package.zip",
   "size": ${ZIPSIZE},
-  "version": "1.5",
+  "version": "1.6",
   "release_notes": "",
   "icons": {
     "320": "/gphx/icons/splash.png",
