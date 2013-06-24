@@ -15,8 +15,9 @@ INITIALWD=`pwd`
 mkdir -p ${variant}/build/
 cp -r basePack ${variant}/build/package
 
-#cat config.json | sed 's/${VARIANT}/'${country}'\/'${device}'/' >> ${variant}/build/package/config.json
 cat config.json | sed 's/${VARIANT}/'${variant//\//\\\/}'/' >> ${variant}/build/package/config.json
+
+cp -r slidesPack/${country}/${device}/ ${variant}/build/package/gphx/slides
 
 cd ${variant}/build/package/
 zip -r ../package.zip *
