@@ -20,41 +20,56 @@
 
 		var tplVideo = '<section id="slide-#number#" class="slide #position# video" role="region" #viewport#>'+
 				'<a href="#" class="play">Play</a>'+
-				'<video controls="controls">'+
-					'<source type="#format#" src="#url#"></source>'+
+				'<a href="#" class="pause">Pause</a>'+
+				'<video preload>'+
+					'<source type="video/ogg" src="#url#"></source>'+
 				'</video>'+
 			'</section>'
 
-
 		var htmlBuffer = "";
-		var localSlides = dom.context.querySelectorAll(".slide");
-		var localSlidesAmount = localSlides.length
 
 		for (var i = 0; i < media.length; i++) {
 			var info = {
-				number: i+localSlidesAmount+1,
+				number: i,
 				position: "",
 				viewport: 'data-viewport="end"',
 				url: media[i]
 			}
 
-			// Remove local last slide and user remote as last
+			// Set next slide
+			if (i == 1) {
+				info.position = "next";
+				info.viewport= 'data-viewport="end"';
+			}
+
+			// Set first slide
+			if (i == 0) {
+				info.position = "current";
+				info.viewport= "";
+			}
+
+			// Set last slide
 			if (i == media.length-1) {
 				info.position = "prev";
 				info.viewport= "";
-				localSlides[localSlidesAmount-1].classList.remove("prev");
-				localSlides[localSlidesAmount-1].dataset.viewport = "end";
 			}
 
-			var slideHTML = Variant.parseTemplate(tpl, info);
+			// Set video tpl or image one
+			if (media[i].search(".ogv") == -1) {
+				var slideHTML = Variant.parseTemplate(tpl, info);
+			} else {
+				var slideHTML = Variant.parseTemplate(tplVideo, info);
+			}
+
 			htmlBuffer += slideHTML;
 		}
-		dom.remotes.outerHTML = htmlBuffer;
 
+		// Insert all the slides
+		dom.context.innerHTML = htmlBuffer;
 
-		// Give some time b2g to paint th htmlBuffer
+		// Give some time b2g to paint the htmlBuffer
 		var delay = setTimeout(function(){
-			callback()
+			callback();
 		}, 50);
 	}
 

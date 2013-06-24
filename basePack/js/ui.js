@@ -7,7 +7,6 @@
 		isTouch = ("ontouchstart" in window && navigator.userAgent.search("Mobile") != -1);
 		dom = {};
 		dom.context = document.getElementById("canvas");
-		dom.remotes = document.getElementById("remotes");
 		dom.loading = document.getElementById("loading");
 
 		// Expose playVideo
@@ -59,17 +58,28 @@
 
 		function createSlides(media) {
 	  	  	var slides = [];
-			if (media) {
-			      Object.keys(media).forEach(function(imgSrc) {
-			      	slides.push(window.URL.createObjectURL(media[imgSrc]));
-			      });
-			      window.console.log('Commercials loaded!!!!');
+
+  	  		var local = utils.config.load(configuration.localSlides+"/slides.json");
+		    	local.onload = function(data) {
+		  	  	// Local slides
+		    		for (var i = 0; i < data.length; i++) {
+		    			slides.push(configuration.localSlides+"/"+data[i]);
+		    		}
+
+		    		// Remote slides
+				if (media) {
+				      Object.keys(media).forEach(function(imgSrc) {
+				      	slides.push(window.URL.createObjectURL(media[imgSrc]));
+				      });
+				      window.console.log('Commercials loaded!!!!');
+			    	}
+
+			      // Create slides, then set dom stuff
+				Variant.createSlides(slides, function() {
+					bindEvents();
+				});
 		    	}
 
-		      // Create slides, then set dom stuff
-			Variant.createSlides(slides, function() {
-				bindEvents();
-			});
 		}
 
 		commercials.init(function() {
