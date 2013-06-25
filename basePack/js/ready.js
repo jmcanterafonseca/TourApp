@@ -80,6 +80,9 @@ document.addEventListener('mozvisibilitychange', function vis_changed(e) {
     if (document.mozHidden === true) {
       window.console.log('Moz hidden !!!');
       scheduleAlarm();
+      clearInterval(Slider.repeat);
+    } else {
+      Slider.autoPlay();
     }
   });
 });
