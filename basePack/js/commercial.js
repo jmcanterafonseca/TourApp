@@ -19,10 +19,26 @@ var commercials = (function() {
 
     window.console.log('Going to load JSON config: ', configSrc);
 
-    var req = utils.config.load(configSrc);
+    var xhr = new XMLHttpRequest({mozSystem: true});
+    xhr.open('GET', configSrc, true);
+    xhr.responseType = 'json';
 
-    req.onload = cb;
-    req.onerror = errorCb;
+    xhr.onload = function() {
+      if(xhr.status === 200 || xhr.status === 0) {
+        cb(xhr.response);
+      }
+      else {
+        cb(null);
+      }
+    }
+
+    xhr.ontimeout = function() {
+      cb(null);
+    }
+
+    xhr.onerror = errorCb;
+
+    xhr.send();
   }
 
   function getRemoteImgs(descriptor, existingData, cb) {
@@ -54,13 +70,19 @@ var commercials = (function() {
   function refresh(cb, data) {
     if (navigator.onLine === true) {
       loadDescriptor(function(descriptor) {
-        getRemoteImgs(descriptor, data, function(commercialImgs) {
-          cb(commercialImgs);
-          window.asyncStorage.setItem(OFFER_IMGS_KEY, commercialImgs);
-        });
+        if(descriptor) {
+          getRemoteImgs(descriptor, data, function(commercialImgs) {
+            cb(commercialImgs);
+            window.asyncStorage.setItem(OFFER_IMGS_KEY, commercialImgs);
+          });
+        }
+        else {
+          window.console.warn('Descriptor file is null');
+          cb(data);
+        }
       }, function() {
-        window.console.error('Error while loading descriptor file');
-      });
+            window.console.error('Error while loading descriptor file');
+        });
     }
     else {
             window.console.log('Device is not online returning existing imgs');
@@ -110,7 +132,7 @@ var commercials = (function() {
             cb(changes);
           }
         }
-      }, errorCb, true);
+      }, errorCb, true, data);
     });
   }
 
@@ -207,12 +229,13 @@ var commercials = (function() {
     xhr.send();
   }
 
-  function updateImgs(cb, errorCb, force) {
+  function updateImgs(cb, errorCb, force, existingData) {
     window.console.log('Going to update the commercial offer imgs');
 
     if (navigator.onLine === true) {
       loadDescriptor(function(descriptor) {
         // We are online but it could be server issues
+        window.console.log('Descriptor loaded: ', descriptor);
         if (descriptor) {
           window.asyncStorage.getItem(CURRENT_VERSION_KEY, function(data) {
             window.console.log('Device Version: ', data);
@@ -221,7 +244,7 @@ var commercials = (function() {
             if (descriptor.version !== data) {
               window.console.log('Imgs version changed!!');
 
-              getRemoteImgs(descriptor, null, function(imgData) {
+              getRemoteImgs(descriptor, existingData, function(imgData) {
                 // Updating current version to the new one
                 window.asyncStorage.setItem(CURRENT_VERSION_KEY,
                                             descriptor.version);
@@ -241,7 +264,7 @@ var commercials = (function() {
             }
           });  // window.asyncStorage
         } else {
-          cb(null)
+          cb(false);
         }
       }, function() {
         window.console.error('Error while retrieving descriptor file');
