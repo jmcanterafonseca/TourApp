@@ -45,8 +45,10 @@ if (typeof utils.config === 'undefined') {
                 delete pendingRequests[resource];
               }
               else if (xhr.readyState === 4) {
+                window.console.error('Status different than 200 returned: ',
+                                     xhr.status);
                 requests.forEach(function(aRequest) {
-                  aRequest.failed(xhr.status);
+                  aRequest.completed(null);
                 });
                 delete pendingRequests[resource];
               }
