@@ -11,7 +11,6 @@ Slider = function() {
 	var moveEvent = isTouch ? "touchmove" : "mousemove";
 	var releaseEvent = isTouch ? "touchend" :"mouseup";
 	var coordinates = { init: 0, current: 0 }
-	var OFFSET = 25 * (window.innerWidth/320);
 	var BASE_OPACITY = 0.6;
 	var delay = configuration.slidesAutoplay;
 
@@ -66,11 +65,13 @@ Slider = function() {
 	}
 
 	function prevSlide() {
-		current.style.transform =""
-		prev.style.opacity = "1";
+		current.style.transform = "";
+		current.style.opacity = "";
+		prev.style.opacity = "";
 
 		// Remove next
 		if (next) {
+			next.style.transform = "";
 			next.style.opacity = "";
 			next.classList.remove("next");
 		}
@@ -133,7 +134,7 @@ Slider = function() {
 		if (coordinates.init - coordinates.current >= 0) {
 			// To start |<=|
 			coordinates.direction = "start";
-			var amount = window.innerWidth - OFFSET - (coordinates.init - coordinates.current);
+			var amount = window.innerWidth - (coordinates.init - coordinates.current);
 			next.style.transform = "translateX("+amount+"px)";
 			// Increase opacity from 0.6 to 1
 			next.style.opacity = (1 - (amount/2)/window.innerWidth);
