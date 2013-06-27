@@ -271,6 +271,7 @@ var commercials = (function() {
             }
           });  // window.asyncStorage
         } else {
+          scheduleAlarm(window.configuration.retryPeriodIfOffline / 60);
           cb(false);
         }
       }, function() {
