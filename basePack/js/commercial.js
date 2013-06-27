@@ -276,6 +276,7 @@ var commercials = (function() {
         }
       }, function() {
         window.console.error('Error while retrieving descriptor file');
+        scheduleAlarm(window.configuration.retryPeriodIfOffline / 60);
         if (typeof errorCb === 'function') {
           errorCb();
         }
