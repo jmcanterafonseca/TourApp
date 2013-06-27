@@ -15,7 +15,7 @@ var commercials = (function() {
   var configuration;
 
   function loadDescriptor(cb, errorCb) {
-    var configSrc = target + IMGS_DESCRIPTOR;
+    var configSrc = target + IMGS_DESCRIPTOR + '?t=' + Date.now();
 
     window.console.log('Going to load JSON config: ', configSrc);
 
@@ -24,17 +24,17 @@ var commercials = (function() {
     xhr.responseType = 'json';
 
     xhr.onload = function() {
-      if(xhr.status === 200 || xhr.status === 0) {
+      if (xhr.status === 200 || xhr.status === 0) {
         cb(xhr.response);
       }
       else {
         cb(null);
       }
-    }
+    };
 
     xhr.ontimeout = function() {
       cb(null);
-    }
+    };
 
     xhr.onerror = errorCb;
 
@@ -43,11 +43,10 @@ var commercials = (function() {
 
   function getRemoteImgs(descriptor, existingData, cb) {
     var commercialImgs = {};
+    // Indicates whether any images were not downloaded
+    var imgsNotRetrieved = false;
 
     window.console.log('JSON config loaded: ', descriptor);
-
-    // Current version of the commercial offer
-    window.asyncStorage.setItem(CURRENT_VERSION_KEY, descriptor.version);
 
     var retriever = new ImgRetriever(target, descriptor.data);
 
@@ -55,13 +54,24 @@ var commercials = (function() {
       if (blob) {
         commercialImgs[imgPath] = blob;
       }
-      else if (existingData && existingData[imgPath]) {
-        commercialImgs[imgPath] = existingData[imgPath];
+      else {
+        window.console.log('Blob is null for', imgPath);
+        if (existingData && existingData[imgPath]) {
+          commercialImgs[imgPath] = existingData[imgPath];
+        }
+        imgsNotRetrieved = true;
       }
     };
 
     retriever.onfinish = function() {
       cb(commercialImgs);
+      // Current version of the commercial offer
+      // It is only updated if none of the images were in error
+      // Thus we guarantee that during next update cycle images will be
+      // downloaded
+      if (imgsNotRetrieved === false) {
+        window.asyncStorage.setItem(CURRENT_VERSION_KEY, descriptor.version);
+      }
     };
 
     retriever.start();
@@ -70,7 +80,7 @@ var commercials = (function() {
   function refresh(cb, data) {
     if (navigator.onLine === true) {
       loadDescriptor(function(descriptor) {
-        if(descriptor) {
+        if (descriptor) {
           getRemoteImgs(descriptor, data, function(commercialImgs) {
             cb(commercialImgs);
             window.asyncStorage.setItem(OFFER_IMGS_KEY, commercialImgs);
@@ -182,7 +192,7 @@ var commercials = (function() {
 
     var xhr = new XMLHttpRequest({mozSystem: true});
 
-    xhr.open('GET', src, true);
+    xhr.open('GET', src + '?t=' + Date.now(), true);
     xhr.responseType = 'blob';
 
     xhr.timeout = timeout;
@@ -245,9 +255,6 @@ var commercials = (function() {
               window.console.log('Imgs version changed!!');
 
               getRemoteImgs(descriptor, existingData, function(imgData) {
-                // Updating current version to the new one
-                window.asyncStorage.setItem(CURRENT_VERSION_KEY,
-                                            descriptor.version);
                 // The new imgs are stored in a different key, waiting to
                 // switch them when necessary
                 var key = force ? OFFER_IMGS_KEY : OFFER_UPDATED_IMGS_KEY;
