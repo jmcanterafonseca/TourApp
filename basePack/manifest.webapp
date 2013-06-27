@@ -9,8 +9,7 @@
     "60": "/gphx/icons/app.png"
   },
   "permissions": {
-    "alarms":{},
-    "systemXHR":{}
+    "alarms":{}
   },
   "messages": [
     { "alarm": "/app.html" }

@@ -26,7 +26,7 @@ if (typeof utils.config === 'undefined') {
         if (!isLoading) {
           loading[resource] = true;
           window.setTimeout(function do_load() {
-            var xhr = new XMLHttpRequest({mozSystem: true});
+            var xhr = new XMLHttpRequest();
             xhr.open('GET', resource, true);
             xhr.responseType = 'json';
 

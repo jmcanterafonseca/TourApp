@@ -19,7 +19,7 @@ var commercials = (function() {
 
     window.console.log('Going to load JSON config: ', configSrc);
 
-    var xhr = new XMLHttpRequest({mozSystem: true});
+    var xhr = new XMLHttpRequest();
     xhr.open('GET', configSrc, true);
     xhr.responseType = 'json';
 
@@ -190,7 +190,7 @@ var commercials = (function() {
   function httpGet(src, callback) {
     window.console.log('Going to get: ', src);
 
-    var xhr = new XMLHttpRequest({mozSystem: true});
+    var xhr = new XMLHttpRequest();
 
     xhr.open('GET', src + '?t=' + Date.now(), true);
     xhr.responseType = 'blob';
