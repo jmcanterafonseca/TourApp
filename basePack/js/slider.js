@@ -1,4 +1,4 @@
-
+SliderReady = false;
 Slider = function() {
 
 	var last;
@@ -222,4 +222,9 @@ Slider = function() {
 	});
 
 	Slider.autoPlay();
+	SliderReady = true;
+	// Notify finished execution
+	var done = new CustomEvent("SliderReady");
+	document.dispatchEvent(done);
+
 }

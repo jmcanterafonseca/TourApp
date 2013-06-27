@@ -82,7 +82,13 @@ document.addEventListener('mozvisibilitychange', function vis_changed(e) {
       scheduleAlarm();
       clearInterval(Slider.repeat);
     } else {
-      Slider.autoPlay();
+       if (SliderReady) {
+         Slider.autoPlay();
+       } else {
+        document.addEventListener("SliderReady", function() {
+           Slider.autoPlay();
+        });
+       }
     }
   });
 });
